@@ -10,8 +10,8 @@ describe('App.vue', () => {
 
   //for some unforsaken reason, this one refuses to work.
   describe('when the toggleEditModeb function is called', () => {
-    const editButton = wrapper.findAll('button').at(0);
-    editButton.trigger('click')
+    const editButton = wrapper.findAll('button').at(2);
+    editButton.trigger('click');
     it('opens an input field in a listitem component', () => {
         expect(wrapper.html()).toContain('input');
     });
