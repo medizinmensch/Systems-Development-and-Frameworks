@@ -1,19 +1,22 @@
 <template>
   <div class="row mx-lg-n5">
     <div class="col-2 py-3 border bg-light">
-      <b-button
+      <button
         v-if="!entry.editMode"
         type="button"
-        id="button"
+        name="edit-button"
+        id="buttonEdit"
         @click="$emit('toggleEditMode', entry.id)"
-      >Edit</b-button>
-      <b-button
+        class="btn btn-primary"
+      >Edit</button>
+      <button
         v-if="entry.editMode"
         type="button"
+        name="save-button"
         id="buttonSave"
         @click="$emit('toggleEditMode', entry.id)"
         class="btn btn-success"
-      >Save</b-button>
+      >Save</button>
       <!-- <button v-bind:disabled="entry.visible" type="button" id="buttonSave" @click="save">Save</button> -->
     </div>
     <div class="col py-3 border bg-light">
@@ -23,18 +26,23 @@
       </form>
     </div>
     <div class="col-2 py-3 border bg-light">
-      <b-button class="btn btn-danger" @click="$emit('deleteEntry', entry.id)" type="button">Delete</b-button>
-
+      <button
+        type="button"
+        name="delete-button"
+        id="buttonDelete"
+        @click="$emit('deleteEntry', entry.id)"
+        class="btn btn-danger"
+      >Delete</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "list",
+  name: "listItem",
   props: {
     entry: Object,
-    deleteentry: Function
+    deleteEntry: Function
   },
   data: function() {
     return { counter: 0 };
