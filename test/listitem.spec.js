@@ -4,24 +4,36 @@ import listitem from '../src/components/listitem.vue';
 describe('listitem.vue', () => {
   const wrapper = mount(listitem, {
     propsData: {
-      entry: { text: "test a todo list" },
+      entry: { text: "test a todo list and its content" },
     }
-  })
-  it('renders a list item', () =>{
-    expect(wrapper.html()).toContain('<div class="row mx-lg-n5">');
+  });
+
+  it('has text', () =>{
     expect(wrapper.html()).toContain('<form class="text">');
+  });
+
+  it('has rows', () =>{
+    expect(wrapper.html()).toContain('<div class="row mx-lg-n5">');
+  });
+
+  it('has columns', () =>{
+    expect(wrapper.html()).toContain('<div class="col py-3 border bg-light">');
+  });
+
+  it('has a delete button', () =>{
     expect(wrapper.html()).toContain('type="button" name="delete-button" id="buttonDelete"');
+  });
+
+  it('has an edit button', () =>{
     expect(wrapper.html()).toContain('type="button" name="edit-button" id="buttonEdit"');
   });
+
   it('doesn\'t show the edit input immediately', () => {
     expect(wrapper.html()).not.toContain('<input type="text" name="newText">');
   });
 
-  //const newText = "this is the updated text";
   const editButton = wrapper.findAll('button').at(0);
   const deleteButton = wrapper.findAll('button').at(1);
-  //console.log(editButton.element);
-  //console.log(wrapper.html());
 
   describe('when the edit button is pressed', () => {
     editButton.trigger('click');
@@ -40,6 +52,7 @@ describe('listitem.vue', () => {
 
   describe('when the delete button is pressed', () => {
     deleteButton.trigger('click');
+
     it('emits a DeleteEntry event', () => {
       expect(wrapper.emitted('deleteEntry'));
     });

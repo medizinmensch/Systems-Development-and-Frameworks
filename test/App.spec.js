@@ -39,7 +39,6 @@ describe('App.vue', () => {
     let listItemWrapper;
     beforeEach(() => {
       listItemWrapper = wrapper.find(list);
-      //console.log(wrapper.find('addEntry'));
       wrapper.vm.addEntry();
     });
 
