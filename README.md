@@ -19,8 +19,13 @@ This Project is made possible by vue-cli and bootstrap
 # install dependencies
 yarn install
 
+# run apollo backend
+node backend.js
+
 # serve with hot reload at localhost:8080
 yarn run dev
 ```
+
+
 
 For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
