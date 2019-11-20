@@ -4,11 +4,19 @@
   "description": "",
   "main": "data.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-server": "^2.9.9"
+    "apollo-server": "^2.9.9",
+    "apollo-server-testing": "^2.9.9",
+    "graphql-tag": "^2.10.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/node": "^7.7.0",
+    "jest": "^24.9.0",
+    "vue-test-utils": "^1.0.0-beta.11"
   }
 }
