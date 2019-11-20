@@ -11,12 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.9.9",
+    "apollo-server-express": "^2.9.9",
     "apollo-server-testing": "^2.9.9",
     "graphql-tag": "^2.10.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.2",
-    "@babel/node": "^7.7.0",
     "jest": "^24.9.0",
     "vue-test-utils": "^1.0.0-beta.11"
   }
