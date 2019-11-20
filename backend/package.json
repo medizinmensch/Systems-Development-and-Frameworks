@@ -2,9 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "data.js",
+  "main": "start_backend.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "dev": "node start_backend.js"
   },
   "author": "",
   "license": "ISC",

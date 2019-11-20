@@ -1,5 +1,6 @@
-//const {ALL_ITEMS_QUERY, CREATE_ENTRY, DELETE_ENTRY} = require("../../webapp/src/queries/graphql");
-const {gql} = require('graphql-tag');
+const { ApolloServer, gql } = require('apollo-server');
+const server = require("../server")
+
 
 const {createTestClient} = require('apollo-server-testing');
 
@@ -13,15 +14,9 @@ const ALL_ITEMS_QUERY = gql`
     }
 `;
 
-const server = new ApolloServer({
-    typeDefs,
-    resolvers
-});
-
 const {query, mutate} = createTestClient(server);
 
-it("behaves in a specified way", () => {
-    expect(query({query: ALL_ITEMS_QUERY
-    })).resolves.toMatchObject("bla")
-
+it("behaves in a specified way", async (done) => {
+    await expect(query({query: ALL_ITEMS_QUERY
+    })).resolves.toMatchObject("bla")    
 });
