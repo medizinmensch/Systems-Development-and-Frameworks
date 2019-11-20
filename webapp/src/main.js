@@ -24,15 +24,12 @@ Vue.use(VueApollo);
 
 const apolloProvider = new VueApollo({
   defaultClient: apolloClient,
-  defaultOptions: {
-    $loadingKey: 'loading'
-  }
 });
 
 Vue.use(BootstrapVue);
 
 new Vue({
   el: '#app',
-  provide: apolloProvider.provide(),
+  apolloProvider,
   render: h => h(App)
 });

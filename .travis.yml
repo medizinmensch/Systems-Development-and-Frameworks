@@ -3,6 +3,7 @@ node_js:
     - 9
 
 script:
+    - cd webapp
     - yarn run build
     - yarn run lint
     - yarn test

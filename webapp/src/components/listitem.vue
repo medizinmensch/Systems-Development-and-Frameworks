@@ -42,7 +42,7 @@
 
 <script>
     export default {
-        name: "listItem",
+        name: "item",
         props: {
             entry: Object,
             deleteEntry: Function

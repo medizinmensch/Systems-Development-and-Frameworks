@@ -20,7 +20,7 @@ This Project is made possible by vue-cli and bootstrap
 yarn install
 
 # run apollo backend
-node backend.js
+node start_backend.js
 
 # serve with hot reload at localhost:8080
 yarn run dev
