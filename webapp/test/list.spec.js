@@ -3,7 +3,7 @@ import list from '../src/components/list.vue';
 import listitem from '../src/components/listitem.vue'
 
 describe('list.vue', () => {
-  const items = [{text: '1'}, {text: '2'}, {text:'3'}]
+  const items = [{text: '1'}, {text: '2'}, {text:'3'}];
   const wrapper = mount(list, {
     propsData: { items: items }
   });
@@ -16,8 +16,8 @@ describe('list.vue', () => {
 
   describe('when the add entry button is pressed', () => {
     addButton.trigger('click');
-    it('emits an addEntry event', () => {
-      expect(wrapper.emitted('addEntry'));
+    it('emits an createEntry event', () => {
+      expect(wrapper.emitted('createEntry'));
     });
   });
 

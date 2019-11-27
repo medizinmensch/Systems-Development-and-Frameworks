@@ -21,11 +21,15 @@ describe('listitem.vue', () => {
   });
 
   it('has a delete button', () =>{
-    expect(wrapper.html()).toContain('type="button" name="delete-button" id="buttonDelete"');
+    expect(wrapper.html()).toContain('id="buttonDelete"');
+    expect(wrapper.html()).toContain('name="delete-button"');
+    expect(wrapper.html()).toContain('type="button"');
   });
 
   it('has an edit button', () =>{
-    expect(wrapper.html()).toContain('type="button" name="edit-button" id="buttonEdit"');
+    expect(wrapper.html()).toContain('id="buttonEdit"');
+    expect(wrapper.html()).toContain('name="edit-button"');
+    expect(wrapper.html()).toContain('type="button"');
   });
 
   it('doesn\'t show the edit input immediately', () => {

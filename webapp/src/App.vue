@@ -26,9 +26,9 @@
         },
         methods: {
             toggleEditModeb: function (id) {
-                for (var i = 0; i < this.items.length; i++) {
-                    if (this.items[i].id === id) {
-                        this.items[i].editMode = !this.items[i].editMode;
+                for (let i of this.items) {
+                    if (i.id === id) {
+                        i.editMode = !i.editMode;
                     }
                 }
             },
