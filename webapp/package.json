@@ -32,5 +32,17 @@
     "eslint-plugin-vue": "^5.0.0",
     "prettier": "^1.19.1",
     "vue-template-compiler": "^2.6.10"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "vue"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ]
   }
 }
