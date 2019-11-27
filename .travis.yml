@@ -7,3 +7,5 @@ script:
     - yarn run build
     - yarn run lint
     - yarn test
+    - cd ../backend
+    - yarn test
