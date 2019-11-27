@@ -21,6 +21,7 @@
     "bootstrap-vue": "^1.2.0",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
+    "http-server": "^0.12.0",
     "jest": "^24.9.0",
     "popper.js": "^1.12.9",
     "random-int": "^2.0.1",
