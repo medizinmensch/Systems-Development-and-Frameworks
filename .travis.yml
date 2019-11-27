@@ -8,4 +8,5 @@ script:
     - yarn run lint
     - yarn test
     - cd ../backend
+    - yarn run lint
     - yarn test
