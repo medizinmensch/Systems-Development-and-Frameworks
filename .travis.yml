@@ -1,12 +1,16 @@
 language: node_js
 node_js:
-    - 11
+    - 9
+
+# credit to aradar / NoraAnlima for config inspiration
+install:
+    - yarn --cwd ./webapp install
+    - yarn --cwd ./backend install
 
 script:
-    - cd webapp
-    - yarn run build
-    - yarn run lint
-    - yarn test
-    - cd ../backend
-    - yarn run lint
-    - yarn test
+    - yarn --cwd ./webapp run build
+    - yarn --cwd ./webapp run lint
+    - yarn --cwd ./webapp run test
+    - yarn --cwd ./webapp install
+    - yarn --cwd ./webapp run lint
+    - yarn --cwd ./webapp test
