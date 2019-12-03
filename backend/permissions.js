@@ -1,6 +1,6 @@
-const { rule, shield, and, or, not } =  require('graphql-shield');
+const { rule, shield, not } =  require('graphql-shield');
 
-const isAuthenticated = rule()(async (parent, args, context, info) => {
+const isAuthenticated = rule()(async (parent, args, context) => {
     if (context.user) {
         return true
     }

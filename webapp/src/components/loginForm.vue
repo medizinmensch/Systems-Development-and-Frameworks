@@ -37,7 +37,7 @@ export default {
     }
   },
   methods: {
-    login: function(id, password) {
+    login: function() {
       this.$apollo
         .mutate({
           mutation: LOGIN,

@@ -13,9 +13,8 @@
 <script>
     import list from "./components/list.vue";
     import loginForm from "./components/loginForm.vue"
-    import registerForm from "./components/registerForm.vue"
     import { ALL_ITEMS_QUERY } from './queries/graphql.js'
-    
+
     export default {
         name: "app",
         data: function () {
@@ -26,7 +25,6 @@
         components: {
             list,
             loginForm,
-            registerForm
         },
         apollo: {
             items: {

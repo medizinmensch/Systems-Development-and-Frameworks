@@ -1,22 +1,8 @@
 import { mount } from '@vue/test-utils';
-import { addMockFunctionsToSchema } from 'graphql-tools'
 import list from '../src/components/list.vue';
-import listitem from '../src/components/listitem.vue'
 
 let mocks, propsData, wrapper
 const items = [{text: '1'}, {text: '2'}, {text:'3'}];
-
-//mutate mockup for returning a single item in case of item creation
-const mutate_created = jest.fn().mockResolvedValue({
-  data:{
-    Item: {
-      id: '0',
-      text: 'Test Todo',
-      editmode: 'false',
-    },
-  }
-})
-
 
 const mutate = jest.fn()
 

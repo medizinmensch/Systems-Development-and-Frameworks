@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-    - 12
+    - "stable"
 
 # credit to aradar / NoraAnlima for config inspiration
 install:
@@ -11,6 +11,5 @@ script:
     - yarn --cwd ./webapp run build
     - yarn --cwd ./webapp run lint
     - yarn --cwd ./webapp run test
-    - yarn --cwd ./webapp install
-    - yarn --cwd ./webapp run lint
-    - yarn --cwd ./webapp test
+    - yarn --cwd ./backend run lint
+    - yarn --cwd ./backend test
