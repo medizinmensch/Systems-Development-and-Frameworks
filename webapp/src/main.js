@@ -13,18 +13,25 @@ Vue.config.productionTip = false;
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:4000/graphql',
-  headers: (headers) => {
-    token = localStorage.getItem("auth-token")
-    if (token !== null) {
-      return {
-        Authorization: token
-      }
-    }
-    else {
-      return null
+  headers: authIsSet()
+  // headers: {
+    // Authorization: `${localStorage.getItem("auth-token")}` ? 
+  // }
+});
+
+function authIsSet() {
+  let token = `${localStorage.getItem("auth-token")}`
+  console.log(token)
+  if (token != "null") {
+    console.log("appears to be not null")
+    return {
+      Authorization: `${localStorage.getItem("auth-token")}`
     }
   }
-});
+  else {
+    return null
+  }
+}
 
 
 const apolloClient = new ApolloClient({

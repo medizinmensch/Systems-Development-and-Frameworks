@@ -3,8 +3,8 @@
         <h1>Frontend-Einkaufslisten-Bearbeitungs-Und-Erstellungsmaschine</h1>
         <hr>
         <loginForm></loginForm>
-        <hr>
-        <register-form></register-form>
+        <!-- <hr>
+        <register-form></register-form> -->
         <hr>
         <list :items="items" @toggle-edit-mode-b="toggleEditModeb"/>
     </div>
