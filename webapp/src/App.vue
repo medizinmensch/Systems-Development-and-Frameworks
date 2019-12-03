@@ -2,7 +2,7 @@
     <div id="app">
         <h1>Frontend-Einkaufslisten-Bearbeitungs-Und-Erstellungsmaschine</h1>
         <hr>
-        <loginForm @loginSuccessful="saveJwt"></loginForm>
+        <loginForm></loginForm>
         <hr>
         <register-form></register-form>
         <hr>
@@ -21,7 +21,6 @@
         data: function () {
             return {
                 items: [],
-                jwt:"not yet defined"
             };
         },
         components: {
@@ -42,9 +41,6 @@
                     }
                 }
             },
-            saveJwt: function (jwt) {
-                this.jwt = jwt
-            }
         }
     };
 </script>

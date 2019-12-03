@@ -16,9 +16,9 @@
         <div class="form-group">
           <input type="password" v-model="input.password" class="form-control" id="inputPassword" placeholder="Password" />
         </div>
-        <button class="btn btn-primary" @click="login">Submit</button>
       </div>
     </form>
+    <button class="btn btn-primary" @click="login">Submit</button>
   </div>
 </template>
 
@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     login: function(id, password) {
-      alert(`Try to login with the email: ${this.input.email} and password: ${this.input.password}`)
       this.$apollo
         .mutate({
           mutation: LOGIN,
@@ -47,20 +46,9 @@ export default {
             password: this.input.password
           }
         })
-        .then(response => {
-          alert("got response")
-          data = response.data;
-          if ((data.status = "success")) {
-            this.$emit("loginSuccessful", response.data.jwt);
-            localStorage.setItem(AUTH_TOKEN, data.jwt);
-            alert("login successfull");
-          } else {
-            alert("login failed");
-          }
+        .then((data) => {
+          localStorage.setItem(AUTH_TOKEN, data.data.login);
         })
-        .catch(error => {
-          alert("error");
-        });
     }
   }
 };

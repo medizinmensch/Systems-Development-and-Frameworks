@@ -1,6 +1,7 @@
 import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
+import { ApolloLink } from "apollo-link"
 import VueApollo from 'vue-apollo';
 import Vue from 'vue'
 import BootstrapVue from "bootstrap-vue"
@@ -10,15 +11,21 @@ import "bootstrap-vue/dist/bootstrap-vue.css"
 
 Vue.config.productionTip = false;
 
+
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4000/graphql'
+  uri: 'http://localhost:4000/graphql',
+  headers: {
+    Authorization: `${localStorage.getItem("auth-token")}`
+  }
 });
+
 
 const apolloClient = new ApolloClient({
   link: httpLink,
   cache: new InMemoryCache(),
   connectToDevTools: true
 });
+
 
 Vue.use(VueApollo);
 

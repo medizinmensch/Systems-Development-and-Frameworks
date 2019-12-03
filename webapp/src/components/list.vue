@@ -19,7 +19,7 @@
 
 <script>
     import listitem from "./listitem.vue";
-    //import {DELETE_ENTRY, CREATE_ENTRY} from "../queries/graphql.js";
+    import {DELETE_ENTRY, CREATE_ENTRY} from "../queries/graphql.js";
 
     export default {
         name: "list",
@@ -48,16 +48,16 @@
             createEntry: function () {
                 console.log("in function, before mutation");
                 this.$apollo.mutate({
-                    //mutation: CREATE_ENTRY,
+                    mutation: CREATE_ENTRY,
                     variables: {
                         text: "More things todo..."
                     },
                 }).then((data) => {
+                    console.log(data.error)
                     this.items.push(data.data.createEntry);
                 }).catch((error) => {
                     console.error(error)
                 })
-
             }
         }
     };
