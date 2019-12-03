@@ -11,11 +11,18 @@ import "bootstrap-vue/dist/bootstrap-vue.css"
 
 Vue.config.productionTip = false;
 
-
 const httpLink = new HttpLink({
   uri: 'http://localhost:4000/graphql',
-  headers: {
-    Authorization: `${localStorage.getItem("auth-token")}`
+  headers: (headers) => {
+    token = localStorage.getItem("auth-token")
+    if (token !== null) {
+      return {
+        Authorization: token
+      }
+    }
+    else {
+      return null
+    }
   }
 });
 
