@@ -22,6 +22,7 @@
 
 <script>
 import { LOGIN } from "../queries/graphql.js";
+import { AUTH_TOKEN } from "../constants/settings.js";
 
 export default {
   name: "loginForm",
@@ -36,14 +37,13 @@ export default {
           }
         })
         .then(response => {
-          data = response.data
-          if (data.status = "success") {
-            this.$emit("loginSuccessful", response.data.jwt)
-            alert("login successfull")
-          }
-          else {
-            this.$emit("loginSuccessful", response.data.jwt)
-            alert("login successfull")
+          data = response.data;
+          if ((data.status = "success")) {
+            this.$emit("loginSuccessful", response.data.jwt);
+            localStorage.setItem(AUTH_TOKEN, data.jwt);
+            alert("login successfull");
+          } else {
+            alert("login failed");
           }
         })
         .catch(error => {
