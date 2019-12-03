@@ -4,7 +4,7 @@ node_js:
 
 script:
     - cd webapp
-    - yar install
+    - yarn install
     - yarn run build
     - yarn run lint
     - yarn test
