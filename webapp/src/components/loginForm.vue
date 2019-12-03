@@ -2,6 +2,7 @@
   <div>
     <form>
       <div class="container px-lg-5">
+        <h2>Login</h2>
         <div class="form-group">
           <input
             type="email"
@@ -9,12 +10,13 @@
             id="inputMail"
             aria-describedby="emailHelp"
             placeholder="Email"
+            v-model="input.email"
           />
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" id="inputPassword" placeholder="Password" />
+          <input type="password" v-model="input.password" class="form-control" id="inputPassword" placeholder="Password" />
         </div>
-        <button type="submit" class="btn btn-primary" @click="login">Submit</button>
+        <button class="btn btn-primary" @click="login">Submit</button>
       </div>
     </form>
   </div>
@@ -26,17 +28,27 @@ import { AUTH_TOKEN } from "../constants/settings.js";
 
 export default {
   name: "loginForm",
+  data() {
+    return {
+      input: {
+        email: "",
+        password: ""
+      }
+    }
+  },
   methods: {
     login: function(id, password) {
-      r = this.$apollo
+      alert(`Try to login with the email: ${this.input.email} and password: ${this.input.password}`)
+      this.$apollo
         .mutate({
           mutation: LOGIN,
           variables: {
-            email: email,
-            password: password
+            email: this.input.email,
+            password: this.input.password
           }
         })
         .then(response => {
+          alert("got response")
           data = response.data;
           if ((data.status = "success")) {
             this.$emit("loginSuccessful", response.data.jwt);
@@ -47,7 +59,7 @@ export default {
           }
         })
         .catch(error => {
-          console.error(error);
+          alert("error");
         });
     }
   }
