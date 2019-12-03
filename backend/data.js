@@ -5,8 +5,4 @@ const items = [
     { id: "3", editMode: false, text: "git commit -m 'this'" }
 ];
 
-const users = [
-    { id: "0", username: "admin", password: "admin123"}
-];
-
 module.exports = items;

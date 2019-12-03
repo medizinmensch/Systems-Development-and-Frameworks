@@ -36,13 +36,13 @@ import { REGISTER } from "../queries/graphql.js";
 export default {
   name: "registerForm",
   methods: {
-    register: function(id, password) {
+    register: function() {
       this.$apollo
         .mutate({
           mutation: REGISTER,
           variables: {
-            email: email,
-            password: password
+            email: this.input.email,
+            password: this.input.password
           }
         })
         .then(response => {

@@ -1,5 +1,4 @@
 import gql from 'graphql-tag'
-import graphlql from 'graphql'
 
 export const ALL_ITEMS_QUERY = gql`
     query itemsQuery {

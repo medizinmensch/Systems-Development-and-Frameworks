@@ -1,6 +1,5 @@
 import { mount } from '@vue/test-utils';
 import app from '../src/App.vue';
-import list from '../src/components/list.vue'
 
 describe('App.vue', () => {
 
