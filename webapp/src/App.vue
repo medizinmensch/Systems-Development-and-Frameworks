@@ -1,12 +1,16 @@
 <template>
     <div id="app">
         <h1>Frontend-Einkaufslisten-Bearbeitungs-Und-Erstellungsmaschine</h1>
+        <loginForm @loginSuccessful="saveJwt"></loginForm>
+        <register-form></register-form>
         <list :items="items" @toggle-edit-mode-b="toggleEditModeb"/>
     </div>
 </template>
 
 <script>
     import list from "./components/list.vue";
+    import loginForm from "./components/loginForm.vue"
+    import registerForm from "./components/registerForm.vue"
     import { ALL_ITEMS_QUERY } from './queries/graphql.js'
     
     export default {
@@ -14,10 +18,13 @@
         data: function () {
             return {
                 items: [],
+                jwt:"not yet defined"
             };
         },
         components: {
-            list
+            list,
+            loginForm,
+            registerForm
         },
         apollo: {
             items: {
@@ -32,6 +39,9 @@
                     }
                 }
             },
+            saveJwt: function (jwt) {
+                this.jwt = jwt
+            }
         }
     };
 </script>
