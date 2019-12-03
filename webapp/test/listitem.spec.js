@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils';
 import listitem from '../src/components/listitem.vue';
 
 describe('listitem.vue', () => {
-  const wrapper = mount(listitem, {
+    const wrapper = mount(listitem, {
     propsData: {
       entry: { text: "test a todo list and its content" },
     }
@@ -44,14 +44,6 @@ describe('listitem.vue', () => {
     it('emits a ToggleEditMode event', () => {
       expect(wrapper.emitted('toggleEditMode'));
     });
-    //the test cases below do not work, as logic for html changes resides outside the listitem component
-
-    // it('shows the edit input field', () => {
-    //   expect(wrapper.html()).toContain('<input type="text" name="newText">');
-    // });
-    // it('renders the save button', () => {
-    //   expect(wrapper.html()).toContain('type="button" name="save-button" id="buttonSave"')
-    // })
   });
 
   describe('when the delete button is pressed', () => {
