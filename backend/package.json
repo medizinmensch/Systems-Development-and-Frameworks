@@ -11,6 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
     "apollo-server": "^2.9.9",
     "apollo-server-errors": "^2.3.4",
     "apollo-server-express": "^2.9.9",
