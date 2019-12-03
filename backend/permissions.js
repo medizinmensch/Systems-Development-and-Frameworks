@@ -14,7 +14,8 @@ const permissions = shield({
     },
     Mutation: {
         createEntry: isAuthenticated,
-        deleteEntry: isAuthenticated
+        deleteEntry: isAuthenticated,
+        login: not(isAuthenticated),
     },
     Item: isAuthenticated
     }

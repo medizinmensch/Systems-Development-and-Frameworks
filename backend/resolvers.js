@@ -1,6 +1,9 @@
+const {AuthenticationError} = require("apollo-server-errors");
+
 const uuidv1 = require('uuid/v1');
 const items = require('./data.js');
 const users = require('./users.js');
+const jwt = require('jsonwebtoken');
 
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves items from the "items" array above.
@@ -25,13 +28,15 @@ const resolvers = {
             return true
         },
         login: (parent, args) => {
+            let token = "";
             users.forEach(user => {
                 if (user.email === args.email && user.password === args.password) {
-                    // generate jwt
-                    return jwt.sign(user, "secret secret");
-
+                    console.log("INFO - User successfully logged in.");
+                    token = jwt.sign(user, "secret secret");
                 }
             });
+            if (token === "") throw new AuthenticationError('Wrong credentials...');
+            return token
         }
     }
 };

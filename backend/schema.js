@@ -7,17 +7,13 @@ const typeDefs = gql`
     type Mutation {
         createEntry(text: String!): Item
         deleteEntry(id: String!): Boolean
-        login(email: String!, password: String!): JWT
+        login(email: String!, password: String!): String
     }
 
     type Item {
         id: String!
         text: String!
         editMode: Boolean!
-    }
-    
-    type JWT {
-        token: String!
     }
 `;
 

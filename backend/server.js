@@ -1,9 +1,5 @@
 const {AuthenticationError} = require("apollo-server-errors");
-
-const {makeExecutableSchema} = require("graphql-tools");
-
 const {ApolloServer} = require('apollo-server');
-const { applyMiddleware } = require('graphql-middleware');
 const typeDefs = require('./schema.js');
 const resolvers = require('./resolvers.js');
 const permissions = require('./permissions.js');
@@ -31,18 +27,13 @@ function getUser(req) {
     return null
 
 }
-const schema = applyMiddleware(
-    makeExecutableSchema({
-        typeDefs,
-        resolvers
-    }),
-    permissions,
 
-);
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
 module.exports = new ApolloServer({
-    schema: schema,
+    typeDefs,
+    resolvers,
+    middlewares: [permissions],
     context: ({ req }) => {
         const user = getUser(req);
         return {user}
