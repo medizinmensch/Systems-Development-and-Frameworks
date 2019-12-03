@@ -1,7 +1,7 @@
 <template>
   <div>
     <form>
-      <h1>Register</h1>
+      <h2>Register</h2>
       <div class="container px-lg-5">
         <label for="exampleInputEmail1">Email address</label>
         <div class="form-group">
