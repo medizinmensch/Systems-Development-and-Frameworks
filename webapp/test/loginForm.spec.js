@@ -12,7 +12,7 @@ describe('loginForm.vue', () => {
     });
     const submitButton = wrapper.findAll('button').at(0);
     const apollo = {
-        mutate: joseToDer.fn().mockResolvedValueOnce({
+        mutate: jest.fn().mockResolvedValueOnce({
             data: {
                 login: "some-token"
             }
