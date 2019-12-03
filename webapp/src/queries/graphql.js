@@ -3,8 +3,8 @@ import gql from 'graphql-tag'
 export const ALL_ITEMS_QUERY = gql`
     query itemsQuery {
         items {
-            id,
-            text,
+            id
+            text
             editMode
         }
     }
@@ -13,8 +13,8 @@ export const ALL_ITEMS_QUERY = gql`
 export const CREATE_ENTRY = gql`
     mutation createEntry($text: String!) {
         createEntry(text: $text) {
-            id,
-            text,
+            id
+            text
             editMode
         }
     }
