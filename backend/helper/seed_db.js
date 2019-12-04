@@ -1,12 +1,11 @@
-const neo4j = require('neo4j-driver').v1
+const neo4j = require('neo4j-driver')
 
 let driver
 
 
-console.log(neo4j)
 function getDriver(options = {}) {
     const {
-        uri = "http://localhost:7474/",
+        uri = "bolt://localhost:7687/",
         username = "neo4j",
         password = "wordpass",
     } = options
@@ -23,4 +22,7 @@ const resultPromise = session.writeTransaction(tx =>
         'CREATE (a:Greeting) SET a.message = $message RETURN a.message + ", from node " + id(a)',
         { message: 'hello, world' }
     )
-)
+).then(() => {
+}).finally(()=> {
+    session.close()
+})
