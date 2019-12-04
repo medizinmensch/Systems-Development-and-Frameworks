@@ -1,5 +1,5 @@
 <template>
-    <div class="row mx-lg-n5">
+    <div class="row mx-lg-n5 jest-list-item">
         <div class="col-2 py-3 border bg-light">
             <button
                     @click="$emit('toggleEditMode', entry.id)"

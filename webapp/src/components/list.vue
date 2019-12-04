@@ -31,7 +31,6 @@
         },
         methods: {
             deleteEntry: function (id) {
-                // todo - i know its stupid but deleting item on client & server side
                 const index = this.items.findIndex(x => x.id === id);
                 this.items.splice(index, 1);
                 console.log("button was pressed with id:" + id);

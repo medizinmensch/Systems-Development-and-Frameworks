@@ -13,7 +13,7 @@ describe('listitem.vue', () => {
   });
 
   it('has rows', () =>{
-    expect(wrapper.html()).toContain('<div class="row mx-lg-n5">');
+    expect(wrapper.html()).toContain('<div class="row mx-lg-n5 jest-list-item">');
   });
 
   it('has columns', () =>{
