@@ -1,9 +1,7 @@
 const {gql} = require('apollo-server-express');
 const {createTestClient} = require('apollo-server-testing');
 const {getTestApolloServer} = require('../server.js');
-const users = require('../../backend/users.js');
 const jwt = require('jsonwebtoken');
-
 const server = getTestApolloServer();
 const initClient = createTestClient(server);
 const query = initClient.query;
