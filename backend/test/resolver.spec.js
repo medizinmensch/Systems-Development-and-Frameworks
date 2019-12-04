@@ -1,6 +1,6 @@
-const {gql} = require('apollo-server-express');
-const {createTestClient} = require('apollo-server-testing');
-const {getTestApolloServer} = require('../server.js');
+const { gql } = require('apollo-server-express');
+const { createTestClient } = require('apollo-server-testing');
+const { getTestApolloServer } = require('../server.js');
 const jwt = require('jsonwebtoken');
 const server = getTestApolloServer();
 const initClient = createTestClient(server);
@@ -43,8 +43,14 @@ const LOGIN = gql`
 describe('User is logged in', () => {
     describe('Queries', () => {
         it("has start todo items", () => {
-            query({query: ALL_ITEMS_QUERY}).then((data) => {
+            query({ query: ALL_ITEMS_QUERY }).then((data) => {
                 expect(data.data.items).toHaveLength(4);
+                expect(data.data.items).toMatchObject([
+                    { id: 1 },
+                    { id: 2 },
+                    { id: 3 },
+                    { id: 4 }
+                ]);
             });
         });
     });
@@ -52,13 +58,15 @@ describe('User is logged in', () => {
     describe('Mutations', () => {
         const exampleText = "example text";
         it("creates entry", () => {
-            mutate({mutation: CREATE_ENTRY, variables: {text: exampleText}})
+            mutate({ mutation: CREATE_ENTRY, variables: { text: exampleText } })
                 .then((data) => {
-                    expect(data.data.createEntry.id).anything
+                    expect(data.data.createEntry.id).toBe(123987123981723)
+                    expect(data.data.createEntry.id).toBeGreaterThanOrEqual(0)
+                    expect(typeof data.data.createEntry.id).toBe('string')
                 });
         });
         it("deletes entry", () => {
-            mutate({mutation: DELETE_ENTRY, variables: {id: "3"}})
+            mutate({ mutation: DELETE_ENTRY, variables: { id: "3" } })
                 .then((data) => {
                     expect(data.data.deleteEntry).toBe(true)
                 });
@@ -70,7 +78,7 @@ describe('User is not logged in', () => {
     it("executes login mutation", () => {
         const userEmail = "admin@aol.com";
         const userPassword = "admin123";
-        mutate({mutation: LOGIN, variables: {email: userEmail, password: userPassword}})
+        mutate({ mutation: LOGIN, variables: { email: userEmail, password: userPassword } })
             .then((data) => {
                 const token = data.data.login;
                 expect(token).not.toBe('undefined');
