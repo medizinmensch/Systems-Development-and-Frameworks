@@ -43,13 +43,6 @@ const LOGIN = gql`
 `;
 
 describe('User is logged in', () => {
-    let testServer;
-    beforeEach(() => {
-        // will always use admin user for requests
-        testServer = getTestApolloServer(() => {
-            return users[0]
-        });
-    });
     describe('Queries', () => {
         it("has start todo items", () => {
             query({query: ALL_ITEMS_QUERY}).then((data) => {
@@ -76,12 +69,6 @@ describe('User is logged in', () => {
 });
 
 describe('User is not logged in', () => {
-    let testServer;
-    beforeEach(() => {
-        testServer = getTestApolloServer(() => {
-            return null
-        });
-    });
     it("executes login mutation", () => {
         const userEmail = "admin@aol.com";
         const userPassword = "admin123";
@@ -96,5 +83,3 @@ describe('User is not logged in', () => {
             });
     });
 });
-
-
