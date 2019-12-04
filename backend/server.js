@@ -11,7 +11,6 @@ const users = require('./users.js');
 const jwt = require('jsonwebtoken');
 
 
-
 function getUser(req) {
     const token = req.get('Authorization');
     if (token != null) {
@@ -35,15 +34,20 @@ const schema = applyMiddleware(
         resolvers
     }),
     permissions,
-
 );
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
-module.exports = new ApolloServer({
-    schema: schema,
-    context: ({ req }) => {
-        const user = getUser(req);
-        return {user}
-    }
+function getApolloServer() {
+    return new ApolloServer({
+        schema, context: ({req}) => {
+            const user = getUser(req);
+            return {user}
+        }
+    })
+}
 
-});
+function getTestApolloServer(context) {
+    return new ApolloServer({schema, context})}
+
+module.exports.getApolloServer = getApolloServer;
+module.exports.getTestApolloServer = getTestApolloServer;

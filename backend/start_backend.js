@@ -1,5 +1,5 @@
-const server = require('./server');
+const {getApolloServer} = require('./server.js');
 
-server.listen().then(({ url }) => {
+getApolloServer().listen().then(({ url }) => {
     console.log(`🚀  Server ready at ${url}`);
 });
