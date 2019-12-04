@@ -1,10 +1,8 @@
 const { rule, shield, not } =  require('graphql-shield');
 
 const isAuthenticated = rule()(async (parent, args, context) => {
-    if (context.user) {
-        return true
-    }
-    return false
+    return !!context.user;
+
 });
 
 const permissions = shield({

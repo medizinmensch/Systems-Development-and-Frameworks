@@ -47,7 +47,8 @@ export default {
           }
         })
         .then((data) => {
-          localStorage.setItem(AUTH_TOKEN, data.data.login);
+          const token = "Bearer " + data.data.login;
+          localStorage.setItem(AUTH_TOKEN, token);
         })
     }
   }

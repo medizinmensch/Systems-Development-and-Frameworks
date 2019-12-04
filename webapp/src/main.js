@@ -19,10 +19,10 @@ const httpLink = new HttpLink({
 });
 
 function authIsSet() {
-  let token = `${localStorage.getItem("auth-token")}`
-  console.log(token)
-  if (token != "null") {
-    console.log("appears to be not null")
+  let token = `${localStorage.getItem("auth-token")}`;
+  console.log(token);
+  if (token !== "null") {
+    console.log("appears to be not null");
     return {
       Authorization: `${localStorage.getItem("auth-token")}`
     }

@@ -1,32 +1,11 @@
 const {applyMiddleware} = require("graphql-middleware");
-
 const {makeExecutableSchema} = require("graphql-tools");
 
-const {AuthenticationError} = require("apollo-server-errors");
 const {ApolloServer} = require('apollo-server');
 const typeDefs = require('./schema.js');
 const resolvers = require('./resolvers.js');
 const permissions = require('./permissions.js');
-const users = require('./users.js');
-const jwt = require('jsonwebtoken');
-
-
-function getUser(req) {
-    const token = req.get('Authorization');
-    if (token != null) {
-        const decoded = jwt.verify(token, 'secret secret');
-        let new_user = "";
-        users.forEach(user => {
-            if (user.email === decoded.email) {
-                new_user = user
-            }
-        });
-        if (new_user === "") throw new AuthenticationError('User provided in JWT not found.');
-        return new_user
-    }
-    return null
-
-}
+const {getContext} = require('./helper/context.js');
 
 const schema = applyMiddleware(
     makeExecutableSchema({
@@ -40,8 +19,7 @@ const schema = applyMiddleware(
 function getApolloServer() {
     return new ApolloServer({
         schema, context: ({req}) => {
-            const user = getUser(req);
-            return {user}
+            return getContext(req);
         }
     })
 }
