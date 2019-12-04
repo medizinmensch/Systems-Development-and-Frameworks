@@ -6,13 +6,13 @@
   "scripts": {
     "test": "jest",
     "dev": "node start_backend.js",
-    "lint": "./node_modules/.bin/eslint \"**/*.js\""
+    "lint": "./node_modules/.bin/eslint \"**/*.js\"",
+    "seed": "node ./helper/seed_db.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@babel/cli": "^7.7.4",
-    "@babel/core": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "apollo-server": "^2.9.9",
     "apollo-server-errors": "^2.3.4",
@@ -27,6 +27,11 @@
     "neo4j-driver": "^4.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.4",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^24.9.0",
+    "babel-loader": "^6.0.0",
+    "babel-preset-env": "^1.6.1",
     "vue-test-utils": "^1.0.0-beta.11"
   }
 }
