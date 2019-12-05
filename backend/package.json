@@ -7,7 +7,7 @@
     "test": "jest",
     "dev": "node start_backend.js",
     "lint": "./node_modules/.bin/eslint \"**/*.js\"",
-    "seed": "node ./helper/seed_db.js"
+    "db:seed": "node ./helper/seed_db.js"
   },
   "author": "",
   "license": "ISC",

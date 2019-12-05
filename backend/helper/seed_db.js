@@ -1,28 +1,35 @@
-const neo4j = require('neo4j-driver')
+const {getDriver} = require('../neo4j/neo4j.js');
+const uuidv1 = require('uuid/v1');
 
-let driver
+const exampleTodoTexts = ["Take out the trash", "Get A+ in SDAF", "git commit -m 'this'", "git diff --cached or --staged"];
+console.log();
 
-
-function getDriver(options = {}) {
-    const {
-        uri = "bolt://localhost:7687/",
-        username = "neo4j",
-        password = "wordpass",
-    } = options
-    if (!driver) {
-        driver = neo4j.driver(uri, neo4j.auth.basic(username, password))
+async function createTestData(amount) {
+    await console.log(`Creating test data. ${amount} Todo's will be created.`);
+    for (let i = 0; i<amount; i++) {
+        const session = driver.session();
+        const exampleText = exampleTodoTexts[Math.floor(Math.random()*(exampleTodoTexts.length-1))];
+        const resultPromise = await session.run(
+            'CREATE (a:Todo {id: $id, text: $text}) RETURN a',
+            {
+                id: uuidv1(),
+                text: exampleText
+            }
+        );
+        await console.log("Created Todo: " + resultPromise.records[0].get(0));
+        await session.close();
     }
-    return driver
+    await driver.close();
 }
-driver = getDriver()
-const session = driver.session()
 
-const resultPromise = session.writeTransaction(tx =>
-    tx.run(
-        'CREATE (a:Greeting) SET a.message = $message RETURN a.message + ", from node " + id(a)',
-        { message: 'hello, world' }
-    )
-).then(() => {
-}).finally(()=> {
-    session.close()
-})
+const driver = getDriver();
+const amountOfTodos = 5;
+createTestData(amountOfTodos).then(r => console.log("Finished creation of test data."));
+
+
+
+
+
+
+
+
