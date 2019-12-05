@@ -1,26 +1,26 @@
 import gql from 'graphql-tag'
 
-export const ALL_ITEMS_QUERY = gql`
-    query itemsQuery {
-        items {
+export const ALL_TODOS_QUERY = gql`
+    query todosQuery {
+        todos {
             id
             text
-            editMode
+            user
         }
     }
 `;
 
-export const CREATE_ENTRY = gql`
+export const CREATE_TODO = gql`
     mutation createEntry($text: String!) {
         createEntry(text: $text) {
             id
             text
-            editMode
+            user
         }
     }
 `;
 
-export const DELETE_ENTRY = gql`
+export const DELETE_TODO = gql`
     mutation DeleteEntry($id: String!) {
         deleteEntry(id: $id)
     }
@@ -28,12 +28,9 @@ export const DELETE_ENTRY = gql`
 
 export const LOGIN = gql`
         mutation login($email: String!, $password:String!) {
-            login(email: $email, password: $password)
-        }
-    `;
-
-export const REGISTER = gql`
-        mutation register($email: String!, $password:String!) {
-            register(email: $email, password: $password)
+            login(email: $email, password: $password) {
+                token
+                user
+            }
         }
     `;

@@ -7,7 +7,7 @@ const isAuthenticated = rule()(async (parent, args, context) => {
 
 const permissions = shield({
     Query: {
-        items: isAuthenticated
+        todos: isAuthenticated
 
     },
     Mutation: {
@@ -15,7 +15,8 @@ const permissions = shield({
         deleteEntry: isAuthenticated,
         login: not(isAuthenticated),
     },
-    Item: isAuthenticated
+    Todo: isAuthenticated,
+    User: isAuthenticated
     }
 
 );

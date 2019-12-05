@@ -42,7 +42,7 @@ const LOGIN = gql`
 
 describe('User is logged in', () => {
     describe('Queries', () => {
-        it("has start todo items", () => {
+        it("has start todo todos", () => {
             query({ query: ALL_ITEMS_QUERY }).then((data) => {
                 expect(data.data.items).toHaveLength(4);
                 expect(data.data.items).toMatchObject([

@@ -24,7 +24,7 @@
 
 <script>
 import { LOGIN } from "../queries/graphql.js";
-import { AUTH_TOKEN } from "../constants/settings.js";
+import { AUTH_TOKEN, USER } from "../constants/settings.js";
 
 export default {
   name: "loginForm",
@@ -47,7 +47,8 @@ export default {
           }
         })
         .then((data) => {
-          localStorage.setItem(AUTH_TOKEN, data.data.login);
+          localStorage.setItem(AUTH_TOKEN, data.data.login.token);
+          localStorage.setItem(USER, data.data.login.user);
         })
     }
   }

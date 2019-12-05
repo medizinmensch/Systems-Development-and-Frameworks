@@ -6,20 +6,20 @@
         <!-- <hr>
         <register-form></register-form> -->
         <hr>
-        <list :items="items" @toggle-edit-mode-b="toggleEditModeb"/>
+        <list :todos="todos" @toggle-edit-mode-b="toggleEditModeb"/>
     </div>
 </template>
 
 <script>
     import list from "./components/list.vue";
     import loginForm from "./components/loginForm.vue"
-    import { ALL_ITEMS_QUERY } from './queries/graphql.js'
+    import { ALL_TODOS_QUERY } from './queries/graphql.js'
 
     export default {
         name: "app",
         data: function () {
             return {
-                items: [],
+                todos: [],
             };
         },
         components: {
@@ -27,13 +27,13 @@
             loginForm,
         },
         apollo: {
-            items: {
-                query: ALL_ITEMS_QUERY
+            todos: {
+                query: ALL_TODOS_QUERY
             }
         },
         methods: {
             toggleEditModeb: function (id) {
-                for (let i of this.items) {
+                for (let i of this.todos) {
                     if (i.id === id) {
                         i.editMode = !i.editMode;
                     }

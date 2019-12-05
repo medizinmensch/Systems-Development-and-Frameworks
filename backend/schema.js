@@ -2,18 +2,26 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`    
     type Query {
-        items: [Item]
+        todos: [Todo]
     }
     type Mutation {
-        createEntry(text: String!): Item
+        createEntry(text: String!): Todo
         deleteEntry(id: String!): Boolean
-        login(email: String!, password: String!): String
+        login(email: String!, password: String!): Login
     }
 
-    type Item {
+    type Todo {
         id: String!
         text: String!
-        editMode: Boolean!
+        user: String!
+    }
+    type User {
+        id: Int!
+        name: String!
+    }
+    type Login {
+        token: String!
+        user: String!
     }
 `;
 

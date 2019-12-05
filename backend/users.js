@@ -5,6 +5,13 @@ const users = [
         password: "admin123",
         name: "admin",
         token: ""
+    },
+    {
+        id: 1,
+        email: "bobby@aol.com",
+        password: "bobby123",
+        name: "bobby",
+        token: ""
     }
 ];
 

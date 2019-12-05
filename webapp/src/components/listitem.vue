@@ -28,6 +28,11 @@
             </form>
         </div>
         <div class="col-2 py-3 border bg-light">
+            <form class="text">
+                <p id="username" >{{ entry.user }}</p>
+            </form>
+        </div>
+        <div class="col-2 py-3 border bg-light">
             <button
                     @click="$emit('deleteEntry', entry.id)"
                     class="btn btn-danger"
@@ -42,7 +47,7 @@
 
 <script>
     export default {
-        name: "item",
+        name: "todo",
         props: {
             entry: Object,
             deleteEntry: Function
