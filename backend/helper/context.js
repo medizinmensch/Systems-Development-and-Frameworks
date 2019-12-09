@@ -2,7 +2,7 @@ const { AuthenticationError } = require("apollo-server-errors");
 const {getDriver} = require('../neo4j/neo4j.js');
 
 const { verifyToken } = require('./jwt.js');
-const users = require('../users.js');
+const users = require('../neo4j/users.js');
 
 function getContext(req) {
     // add user
