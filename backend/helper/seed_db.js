@@ -46,7 +46,7 @@ async function createTestTodos(amount) {
         session = await driver.session();
         const relQuery = await session.run(
             'MATCH (u:User), (t:Todo) \n' +
-            'WHERE u.name = $user_name AND t.id = $todoId \n' +
+            'WHERE u.name = $user_name AND t.id = $todo_id \n' +
             'CREATE (t)-[r:BELONGS]->(u)\n' +
             'RETURN u.name, type(r), t.id',
             {

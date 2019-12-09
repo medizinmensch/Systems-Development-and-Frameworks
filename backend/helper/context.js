@@ -5,15 +5,16 @@ const { verifyToken } = require('./jwt.js');
 const users = require('../neo4j/users.js');
 
 function getContext(req) {
-    // add user
-    const authHeader = req.get('Authorization');
-    if (typeof authHeader == "undefined") return;
-    const token = authHeader.replace('Bearer ', '');
-    if (token == null) return;
-    const currentUser = verifyToken(token);
-    const user = findUserFromToken(currentUser, token);
 
     const driver = getDriver();
+    // add user
+    const authHeader = req.get('Authorization');
+    if (typeof authHeader == "undefined") return { driver };
+    const token = authHeader.replace('Bearer ', '');
+    if (token == null) return { driver };
+
+    const currentUser = verifyToken(token);
+    const user = findUserFromToken(currentUser, token);
 
     return {
         user,
