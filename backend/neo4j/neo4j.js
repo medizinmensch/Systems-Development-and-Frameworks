@@ -1,17 +1,19 @@
 const neo4j = require('neo4j-driver');
+const dotenv = require("dotenv");
 
-const user = "neo4j";
-const pw = "wordpass";
+dotenv.config();
+const user = process.env.NEO4J_USER;
+const pw = process.env.NEO4J_PASSWORD;
 let driver;
 
 function getDriver(options = {}) {
     const {
-        uri = "bolt://localhost:7687/",
+        uri = process.env.NEO4J_URI,
         username = user,
         password = pw,
     } = options;
     if (!driver) {
-        driver = neo4j.driver(uri, neo4j.auth.basic(username, password))
+        driver = neo4j.driver(uri, neo4j.auth.basic(user, pw))
     }
     return driver
 }

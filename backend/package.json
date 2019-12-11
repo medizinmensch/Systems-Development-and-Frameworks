@@ -18,6 +18,7 @@
     "apollo-server-errors": "^2.3.4",
     "apollo-server-express": "^2.9.9",
     "apollo-server-testing": "^2.9.9",
+    "dotenv": "^8.2.0",
     "eslint": "^6.7.1",
     "graphql-middleware": "^4.0.2",
     "graphql-shield": "^7.0.4",
