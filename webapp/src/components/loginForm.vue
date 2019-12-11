@@ -19,6 +19,7 @@
       </div>
     </form>
     <button class="btn btn-primary" @click="login">Submit</button>
+    <button class="btn btn-primary" @click="logout">Logout</button>
   </div>
 </template>
 
@@ -49,7 +50,14 @@ export default {
         .then((data) => {
           localStorage.setItem(AUTH_TOKEN, data.data.login.token);
           localStorage.setItem(USER, data.data.login.user);
+          this.$emit("successfulLogin")
         })
+    },
+    logout: function () {
+      localStorage.removeItem(AUTH_TOKEN);
+      localStorage.removeItem(USER);
+      this.$emit("successfulLogout")
+
     }
   }
 };

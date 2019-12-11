@@ -8,6 +8,7 @@ const typeDefs = gql`
         createEntry(text: String!): Todo
         deleteEntry(id: String!): Boolean
         login(email: String!, password: String!): Login
+        updateTodo(id: String!, text: String!): Todo
     }
 
     type Todo {

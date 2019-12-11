@@ -1,9 +1,9 @@
-const {AuthenticationError} = require("apollo-server-errors");
+const { AuthenticationError } = require("apollo-server-errors");
 
 const uuidv1 = require('uuid/v1');
 const todos = require('./data.js');
 const users = require('./neo4j/users.js');
-const {createJWTToken} = require('./helper/jwt.js');
+const { createJWTToken } = require('./helper/jwt.js');
 
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves todos from the "todos" array above.
@@ -72,13 +72,31 @@ const resolvers = {
                     'MATCH (t:Todo) \n' +
                     'WHERE t.id = $id\n' +
                     'DETACH DELETE t', {
-                        id: args.id
-                    }
+                    id: args.id
+                }
                 )
             } finally {
                 session.close()
             }
             return true
+        },
+        updateTodo: async (parent, args, context) => {
+            const session = context.driver.session();
+            console.log("Update Todo requested")
+            try {
+                let todo = await session.run(
+                    'MERGE (t:Todo {id: $id})-[:BELONGS]->(u:User {name: $user}) \n' +
+                    'ON MATCH SET t.text = $text \n' +
+                    'RETURN t', {
+                    id: args.id,
+                    text: args.text,
+                    user: context.user.name
+                })
+                console.log("worked?, ", todo)
+                return todo.records[0].get("t").properties                
+            } finally {
+                session.close()
+            }
         },
         login: async (parent, args, context) => {
             const session = context.driver.session();
@@ -95,7 +113,7 @@ const resolvers = {
                     console.log("INFO - User '" + user.name + "' successfully logged in.");
                 }
                 if (token === "") throw new AuthenticationError('Wrong credentials...');
-                return {token: token, user: user.name};
+                return { token: token, user: user.name };
 
             } finally {
                 session.close()

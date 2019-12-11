@@ -2,7 +2,7 @@
     <div class="row mx-lg-n5 jest-list-item">
         <div class="col-2 py-3 border bg-light">
             <button
-                    @click="$emit('toggleEditMode', entry.id)"
+                    @click="$emit('toggleEditMode', entry)"
                     class="btn btn-primary"
                     id="buttonEdit"
                     name="edit-button"
@@ -11,7 +11,7 @@
             >Edit
             </button>
             <button
-                    @click="$emit('toggleEditMode', entry.id)"
+                    @click="$emit('toggleEditMode', entry)"
                     class="btn btn-success"
                     id="buttonSave"
                     name="save-button"

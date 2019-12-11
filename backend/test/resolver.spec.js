@@ -6,14 +6,16 @@ const server = getTestApolloServer();
 const initClient = createTestClient(server);
 const query = initClient.query;
 const mutate = initClient.mutate;
+const dotenv = require("dotenv")
+
+dotenv.config();
 
 // could not outsource these queries/mutations...
 const ALL_ITEMS_QUERY = gql`
     query itemsQuery {
         items {
             id,
-            text,
-            editMode
+            text
         }
     }
 `;
@@ -22,8 +24,7 @@ const CREATE_ENTRY = gql`
     mutation createEntry($text: String!) {
         createEntry(text: $text) {
             id,
-            text,
-            editMode
+            text
         }
     }
 `;
@@ -36,7 +37,10 @@ const DELETE_ENTRY = gql`
 
 const LOGIN = gql`
     mutation login($email: String!, $password:String!) {
-        login(email: $email, password: $password)
+        login(email: $email, password: $password) {
+            token
+            user
+        }
     }
 `;
 
@@ -74,18 +78,36 @@ describe('User is logged in', () => {
     });
 });
 
+
+
 describe('User is not logged in', () => {
-    it("executes login mutation", () => {
-        const userEmail = "admin@aol.com";
-        const userPassword = "admin123";
-        mutate({ mutation: LOGIN, variables: { email: userEmail, password: userPassword } })
-            .then((data) => {
-                const token = data.data.login;
-                expect(token).not.toBe('undefined');
-                expect(token).not.toBe(null);
-                const tokenDecoded = jwt.verify(token, "secret secret");
-                expect(tokenDecoded.email).toBe(userEmail);
-                expect(tokenDecoded.password).toBe(userPassword);
-            });
+    it("True negative for creating todos", async () => {
+        const todo_id = 2;
+        const todo_text = "test text";
+        const data = await mutate(
+            {
+                mutation: CREATE_ENTRY,
+                variables:
+                {
+                    id: todo_id,
+                    text: todo_text
+                }
+            }
+        )
+        console.log(data)
+        expect(data.errors[0].message).toBe("Not Authorised!")
     });
+    it("Login", async () => {
+        const x = await mutate(
+            {
+                mutation: LOGIN,
+                variables: {
+                    email: process.env.ADMIN_EMAIL,
+                    password: process.env.ADMIN_PASSWORD
+                }
+            }
+        )
+        console.log(x)
+        expect(x.data.token).toContain("asd")
+    })
 });

@@ -33,4 +33,13 @@ export const LOGIN = gql`
                 user
             }
         }
-    `;
+`;
+
+export const UPDATE_TODO = gql`
+    mutation updateTodo($id: String!, $text: String!){
+        updateTodo(id: $id, text: $text){
+            id  
+            text
+        }
+    }
+`;

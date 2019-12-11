@@ -14,6 +14,7 @@ const permissions = shield({
         createEntry: isAuthenticated,
         deleteEntry: isAuthenticated,
         login: not(isAuthenticated),
+        updateTodo: isAuthenticated
     },
     Todo: isAuthenticated,
     User: isAuthenticated
