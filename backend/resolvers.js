@@ -11,6 +11,7 @@ const resolvers = {
     Query: {
         todos: async (parent, args, context) => {
             const currentUser = context.user.name;
+            console.log(`INFO - Got 'ALL_TODOS_QUERY' from user ‘${currentUser}'`);
             const session = context.driver.session();
             try {
                 const todosQuery = await session.run(
@@ -29,7 +30,29 @@ const resolvers = {
         }
     },
     Mutation: {
-        createEntry: async (parent, args, context) => {
+        login: async (parent, args, context) => {
+            const session = context.driver.session();
+            let token = "";
+            try {
+                const userQuery = await session.run(
+                    'MATCH (u:User) WHERE u.email = $email RETURN u',
+                    {
+                        email: args.email
+                    });
+                const user = userQuery.records[0].get('u').properties;
+                if (user.email === args.email && user.password === args.password) {
+                    token = createJWTToken(user);
+                    console.log("INFO - User '" + user.name + "' successfully logged in.");
+                }
+                if (token === "") throw new AuthenticationError('Wrong credentials...');
+                return { token: token, user: user.name };
+
+            } finally {
+                session.close()
+            }
+        },
+        createTodo: async (parent, args, context) => {
+            console.log(`INFO - Got 'CREATE_TODO' from user ‘${context.user.name}'`);
             const session = context.driver.session();
             const todo = {
                 id: uuidv1(),
@@ -65,7 +88,25 @@ const resolvers = {
             todo.user = context.user.name;
             return todo
         },
-        deleteEntry: async (parent, args, context) => {
+        updateTodo: async (parent, args, context) => {
+            console.log(`INFO - Got 'UPDATE_TODO' from user ‘${context.user.name}'`);
+            const session = context.driver.session();
+            try {
+                let todo = await session.run(
+                    'MERGE (t:Todo {id: $id})-[:BELONGS]->(u:User {name: $user}) \n' +
+                    'ON MATCH SET t.text = $text \n' +
+                    'RETURN t', {
+                        id: args.id,
+                        text: args.text,
+                        user: context.user.name
+                    });
+                return todo.records[0].get("t").properties
+            } finally {
+                session.close()
+            }
+        },
+        deleteTodo: async (parent, args, context) => {
+            console.log(`INFO - Got 'DELETE_TODO' from user ‘${context.user.name}'`);
             const session = context.driver.session();
             try {
                 await session.run(
@@ -79,45 +120,6 @@ const resolvers = {
                 session.close()
             }
             return true
-        },
-        updateTodo: async (parent, args, context) => {
-            const session = context.driver.session();
-            console.log("Update Todo requested")
-            try {
-                let todo = await session.run(
-                    'MERGE (t:Todo {id: $id})-[:BELONGS]->(u:User {name: $user}) \n' +
-                    'ON MATCH SET t.text = $text \n' +
-                    'RETURN t', {
-                    id: args.id,
-                    text: args.text,
-                    user: context.user.name
-                })
-                console.log("worked?, ", todo)
-                return todo.records[0].get("t").properties                
-            } finally {
-                session.close()
-            }
-        },
-        login: async (parent, args, context) => {
-            const session = context.driver.session();
-            let token = "";
-            try {
-                const userQuery = await session.run(
-                    'MATCH (u:User) WHERE u.email = $email RETURN u',
-                    {
-                        email: args.email
-                    });
-                const user = userQuery.records[0].get('u').properties;
-                if (user.email === args.email && user.password === args.password) {
-                    token = createJWTToken(user);
-                    console.log("INFO - User '" + user.name + "' successfully logged in.");
-                }
-                if (token === "") throw new AuthenticationError('Wrong credentials...');
-                return { token: token, user: user.name };
-
-            } finally {
-                session.close()
-            }
         }
     }
 };

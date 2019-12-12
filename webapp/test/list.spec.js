@@ -40,7 +40,7 @@ describe('list.vue', () => {
       wrapper = Wrapper()
     })
 
-    it('emits an createEntry event', () => {
+    it('emits an createTodo event', () => {
       const buttons = wrapper.findAll('button');
       const addButton = buttons.at((buttons.length - 1));
       addButton.trigger('click');
@@ -63,13 +63,13 @@ describe('list.vue', () => {
   //   });
   // });
 
-  describe('when a listitem emits a deleteEntry event', () => {
+  describe('when a listitem emits a deleteTodo event', () => {
 
     beforeEach(() => {
       wrapper = Wrapper()
     })
 
-    it('emits a deleteEntry event', () => {
+    it('emits a deleteTodo event', () => {
       const x = wrapper.findAll(".jest-list-item").at(0).find(".btn-danger")
       x.trigger("click");
       expect(mocks.$apollo.mutate).toBeCalledWith(expect.objectContaining({ variables: { id: "0" } }));

@@ -11,10 +11,10 @@ const permissions = shield({
 
     },
     Mutation: {
-        createEntry: isAuthenticated,
-        deleteEntry: isAuthenticated,
-        login: not(isAuthenticated),
-        updateTodo: isAuthenticated
+        createTodo: isAuthenticated,
+        updateTodo: isAuthenticated,
+        deleteTodo: isAuthenticated,
+        login: not(isAuthenticated)
     },
     Todo: isAuthenticated,
     User: isAuthenticated

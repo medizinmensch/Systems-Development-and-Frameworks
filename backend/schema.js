@@ -5,10 +5,10 @@ const typeDefs = gql`
         todos: [Todo]
     }
     type Mutation {
-        createEntry(text: String!): Todo
-        deleteEntry(id: String!): Boolean
         login(email: String!, password: String!): Login
+        createTodo(text: String!): Todo
         updateTodo(id: String!, text: String!): Todo
+        deleteTodo(id: String!): Boolean
     }
 
     type Todo {

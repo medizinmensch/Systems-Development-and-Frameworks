@@ -31,7 +31,6 @@ function findUserFromToken(req_user, token) {
         }
     });
     if (typeof foundUser === "undefined") throw new AuthenticationError('User provided in JWT not found.');
-    console.log("INFO - '" + foundUser.name + "' successfully requested.");
     return foundUser
 }
 
