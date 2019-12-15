@@ -17,7 +17,7 @@ const resolvers = {
                 const todosQuery = await session.run(
                     'MATCH (t:Todo)-[:BELONGS]->(u:User)\n' +
                     'WHERE u.name = $userName\n' +
-                    'RETURN t',
+                    'RETURN t ORDER BY t.text DESC',
                     {
                         userName: currentUser
                     });

@@ -34,7 +34,7 @@ yarn db:seed
 
 Open [localhost:7474](http://localhost:7474/browser/) for neo4j playground.
 
-### Frontend 
+### Frontend
 ```bash
 cd webapp
 yarn install
@@ -45,7 +45,7 @@ yarn dev
 
 Login via:
 **Username:** `admin@aol.com`
-**Password:** `admin123` 
+**Password:** `admin123`
 
 `AFTER LOGIN, YOU HAVE TO RELOAD THE PAGE TO TAKE AFFECT` (bug`)
 
@@ -79,7 +79,7 @@ Connect your database with Neo4J
    }
    ```
 4. ✅ Implement a filter (`WHERE` in cypher).
-5. Implement some ordering (`ORDER BY` in cypher).
+5. ✅ Implement some ordering (`ORDER BY` in cypher).
 6. Implement pagination (`SKIP` and `LIMIT` in cypher).
 7. ✅ Implement an update mutation that uses `MERGE`.
 8. Write backend tests for all of the above.
