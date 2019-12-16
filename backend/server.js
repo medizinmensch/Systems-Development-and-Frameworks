@@ -24,15 +24,9 @@ function getApolloServer() {
     })
 }
 
-function getTestApolloServer() {
+function getTestApolloServer(req) {
     return new ApolloServer({
         schema, context: () => {
-            const req = {
-                "get": () => {
-                    console.log(typeof(undefined))
-                    return { "Authorization": undefined }
-                }
-            }
             return getContext(req);
         }
     })

@@ -5,11 +5,12 @@ const { verifyToken } = require('./jwt.js');
 const users = require('../neo4j/users.js');
 
 function getContext(req) {
-
     const driver = getDriver();
+    console.log(req);
     // add user
+    if (typeof req == "undefined" ) return { driver };
     const authHeader = req.get('Authorization');
-    if (typeof authHeader == "undefined") return { driver };
+    if (typeof authHeader == "undefined" || authHeader === "") return { driver };
     const token = authHeader.replace('Bearer ', '');
     if (token == null) return { driver };
 
@@ -24,6 +25,7 @@ function getContext(req) {
 
 function findUserFromToken(req_user, token) {
     let foundUser;
+    // todo use query from db
     users.forEach(user => {
         if (user.email === req_user.email) {
             user.token = token;
