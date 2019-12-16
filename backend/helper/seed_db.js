@@ -31,7 +31,8 @@ async function createTestTodos(amount) {
     for (let i = 0; i<amount; i++) {
         let session = await driver.session();
         const exampleText = exampleTodoTexts[Math.floor(Math.random()*(exampleTodoTexts.length))];
-        const randomUser = exampleUsers[Math.floor(Math.random()*(exampleUsers.length))];
+        // skip testUser
+        const randomUser = exampleUsers[Math.floor(Math.random()*(exampleUsers.length-1))];
         const todoId = uuidv1();
         const todoQuery = await session.run(
             'CREATE (a:Todo {id: $id, text: $text}) RETURN a',

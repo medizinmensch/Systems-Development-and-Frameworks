@@ -6,7 +6,6 @@ const users = require('../neo4j/users.js');
 
 function getContext(req) {
     const driver = getDriver();
-    console.log(req);
     // add user
     if (typeof req == "undefined" ) return { driver };
     const authHeader = req.get('Authorization');

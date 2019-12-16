@@ -1,6 +1,6 @@
-const { gql } = require('apollo-server-express');
-const { createTestClient } = require('apollo-server-testing');
-const { getTestApolloServer } = require('../server.js');
+const {gql} = require('apollo-server-express');
+const {createTestClient} = require('apollo-server-testing');
+const {getTestApolloServer} = require('../server.js');
 const dotenv = require("dotenv");
 
 let testServer = getTestApolloServer();
@@ -8,8 +8,10 @@ let testClient = createTestClient(testServer);
 let query = testClient.query;
 let mutate = testClient.mutate;
 
-
 dotenv.config();
+const testUserEmail = process.env.TESTUSER_EMAIL;
+const testUserPassword = process.env.TESTUSER_PASSWORD;
+const testUserName = process.env.TESTUSER_NAME;
 
 // could not outsource these queries/mutations...
 const LOGIN = gql`
@@ -60,7 +62,7 @@ describe('User is logged in', () => {
     beforeEach(async () => {
         const result = await testClient.mutate({
             mutation: LOGIN,
-            variables: {email: process.env.ADMIN_EMAIL, password: process.env.ADMIN_PASSWORD}
+            variables: {email: testUserEmail, password: testUserPassword}
         });
         let req = new Map();
         req.set("Authorization", result.data.login.token);
@@ -75,38 +77,38 @@ describe('User is logged in', () => {
         testClient = createTestClient(testServer);
     });
     describe('Queries', () => {
-        it("has start todo todos", () => {
-            query({ query: ALL_TODOS_QUERY }).then((data) => {
-                expect(data.data.items).toHaveLength(4);
-                expect(data.data.items).toMatchObject([
-                    { id: 1 },
-                    { id: 2 },
-                    { id: 3 },
-                    { id: 4 }
-                ]);
-            });
+        it("has start todo todos", async () => {
+            const data = await query({query: ALL_TODOS_QUERY});
+            console.log(data.data.todos);
+            //expect(data.data.items).toHaveLength(4);
         });
     });
 
     describe('Mutations', () => {
         const exampleText = "example text";
-        it("creates entry", () => {
-            mutate({ mutation: CREATE_TODO, variables: { text: exampleText } })
-                .then((data) => {
-                    expect(data.data.createEntry.id).toBe(123987123981723)
-                    expect(data.data.createEntry.id).toBeGreaterThanOrEqual(0)
-                    expect(typeof data.data.createEntry.id).toBe('string')
-                });
+        const exampleText2 = "new example text";
+        it("creates entry", async () => {
+            const data = await mutate({mutation: CREATE_TODO, variables: {text: exampleText}});
+            console.log(data.data.createTodo);
+            expect(data.data.createTodo.text).toBe(exampleText);
+            expect(data.data.createTodo.user).toBe(testUserName)
         });
-        it("deletes entry", () => {
-            mutate({ mutation: DELETE_TODO, variables: { id: "3" } })
-                .then((data) => {
-                    expect(data.data.deleteEntry).toBe(true)
-                });
+        it("creates and then updates entry", async () => {
+            const createData = await mutate({mutation: CREATE_TODO, variables: {text: exampleText}});
+            const todoId = createData.data.createTodo.id;
+            expect(createData.data.createTodo.text).toBe(exampleText);
+            expect(createData.data.createTodo.user).toBe(testUserName);
+            const updateData = await mutate({mutation: UPDATE_TODO, variables: {id: todoId, text: exampleText2}});
+            expect(updateData.data.updateTodo.text).toBe(exampleText2);
+
+        });
+        it("deletes entry", async () => {
+            const data = await mutate({mutation: DELETE_TODO, variables: {id: "3"}});
+            console.log(data.data.deleteTodo);
+            expect(data.data.deleteTodo).toBe(true)
         });
     });
 });
-
 
 
 describe('User is not logged in', () => {
@@ -117,10 +119,10 @@ describe('User is not logged in', () => {
             {
                 mutation: CREATE_TODO,
                 variables:
-                {
-                    id: todo_id,
-                    text: todo_text
-                }
+                    {
+                        id: todo_id,
+                        text: todo_text
+                    }
             }
         );
         console.log(data);
