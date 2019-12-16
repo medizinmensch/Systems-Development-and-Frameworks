@@ -2,6 +2,7 @@ const {gql} = require('apollo-server-express');
 const {createTestClient} = require('apollo-server-testing');
 const {getTestApolloServer} = require('../server.js');
 const dotenv = require("dotenv");
+const { verifyToken } = require('../helper/jwt.js');
 
 let testServer = getTestApolloServer();
 let testClient = createTestClient(testServer);
@@ -79,8 +80,9 @@ describe('User is logged in', () => {
     describe('Queries', () => {
         it("has start todo todos", async () => {
             const data = await query({query: ALL_TODOS_QUERY});
-            console.log(data.data.todos);
-            //expect(data.data.items).toHaveLength(4);
+            expect(data.errors).toBeUndefined();
+            expect(data.data.todos.length).toBeGreaterThan(0);
+            expect(data.data.todos[0].user).toBe(testUserName)
         });
     });
 
@@ -89,22 +91,23 @@ describe('User is logged in', () => {
         const exampleText2 = "new example text";
         it("creates entry", async () => {
             const data = await mutate({mutation: CREATE_TODO, variables: {text: exampleText}});
-            console.log(data.data.createTodo);
             expect(data.data.createTodo.text).toBe(exampleText);
             expect(data.data.createTodo.user).toBe(testUserName)
         });
         it("creates and then updates entry", async () => {
             const createData = await mutate({mutation: CREATE_TODO, variables: {text: exampleText}});
+            expect(createData.errors).toBeUndefined();
             const todoId = createData.data.createTodo.id;
             expect(createData.data.createTodo.text).toBe(exampleText);
             expect(createData.data.createTodo.user).toBe(testUserName);
             const updateData = await mutate({mutation: UPDATE_TODO, variables: {id: todoId, text: exampleText2}});
+            expect(updateData.errors).toBeUndefined();
             expect(updateData.data.updateTodo.text).toBe(exampleText2);
 
         });
         it("deletes entry", async () => {
             const data = await mutate({mutation: DELETE_TODO, variables: {id: "3"}});
-            console.log(data.data.deleteTodo);
+            expect(data.errors).toBeUndefined();
             expect(data.data.deleteTodo).toBe(true)
         });
     });
@@ -112,7 +115,20 @@ describe('User is logged in', () => {
 
 
 describe('User is not logged in', () => {
-    it("creation fails because user has no JWT token.", async () => {
+    beforeEach(async () => {
+        let req = new Map();
+        req.set("Authorization", "");
+        testServer = getTestApolloServer(req);
+        testClient = createTestClient(testServer);
+        query = testClient.query;
+        mutate = testClient.mutate;
+    });
+    afterEach(async () => {
+        //remove token header
+        testServer = getTestApolloServer();
+        testClient = createTestClient(testServer);
+    });
+    it("fails because user has no JWT token.", async () => {
         const todo_id = 2;
         const todo_text = "test text";
         const data = await mutate(
@@ -125,20 +141,26 @@ describe('User is not logged in', () => {
                     }
             }
         );
-        console.log(data);
         expect(data.errors[0].message).toBe("Not Authorised!")
     });
     it("Login", async () => {
-        const x = await mutate(
+        const data = await mutate(
             {
                 mutation: LOGIN,
                 variables: {
-                    email: process.env.ADMIN_EMAIL,
-                    password: process.env.ADMIN_PASSWORD
+                    email: testUserEmail,
+                    password: testUserPassword
                 }
             }
         );
-        console.log(x);
-        expect(x.data.token).toContain("asd")
+        expect(data.errors).toBeUndefined();
+        expect(data.data.login.user).toBe(testUserName);
+
+        const token = data.data.login.token;
+        const user = verifyToken(token);
+        expect(user.name).toBe(testUserName);
+        expect(user.email).toBe(testUserEmail);
+        expect(user.password).toBe(testUserPassword);
+
     })
 });

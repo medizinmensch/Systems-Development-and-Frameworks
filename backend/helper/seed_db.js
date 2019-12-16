@@ -2,7 +2,7 @@ const {getDriver} = require('../neo4j/neo4j.js');
 const uuidv1 = require('uuid/v1');
 const users = require('../neo4j/users.js');
 
-const exampleTodoTexts = ["Take out the trash", "Get A+ in SDAF", "git commit -m 'this'", "git diff --cached or --staged"];
+const exampleTodoTexts = ["Take out the trash", "Get A+ in SDAF", "git commit -m 'this'", "git diff --cached or --staged?", "learn cypher query language", "make frontend pretty"];
 const exampleUsers = [];
 users.forEach(user => {
     exampleUsers.push(user.name);
@@ -31,8 +31,7 @@ async function createTestTodos(amount) {
     for (let i = 0; i<amount; i++) {
         let session = await driver.session();
         const exampleText = exampleTodoTexts[Math.floor(Math.random()*(exampleTodoTexts.length))];
-        // skip testUser
-        const randomUser = exampleUsers[Math.floor(Math.random()*(exampleUsers.length-1))];
+        const randomUser = exampleUsers[Math.floor(Math.random()*(exampleUsers.length))];
         const todoId = uuidv1();
         const todoQuery = await session.run(
             'CREATE (a:Todo {id: $id, text: $text}) RETURN a',
@@ -66,7 +65,7 @@ async function createTestData() {
 }
 
 const driver = getDriver();
-const amountOfTodos = 5;
+const amountOfTodos = 15;
 createTestData();
 
 
