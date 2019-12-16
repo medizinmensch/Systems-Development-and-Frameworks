@@ -25,8 +25,8 @@ const LOGIN = gql`
 `;
 
 const ALL_TODOS_QUERY = gql`
-    query todosQuery {
-        todos {
+    query todosQuery ($page: Int!){
+        todos (page: $page){
             id
             text
             user
@@ -79,11 +79,14 @@ describe('User is logged in', () => {
     });
     describe('Queries', () => {
         it("has start todo todos", async () => {
-            const data = await query({query: ALL_TODOS_QUERY});
+            const data = await query({query: ALL_TODOS_QUERY, variables: {page:0 }});
             expect(data.errors).toBeUndefined();
             expect(data.data.todos.length).toBeGreaterThan(0);
+            //pagination test
+            expect(data.data.todos.length).toBeLessThanOrEqual(5)
             expect(data.data.todos[0].user).toBe(testUserName)
         });
+
     });
 
     describe('Mutations', () => {
@@ -109,6 +112,17 @@ describe('User is logged in', () => {
             const data = await mutate({mutation: DELETE_TODO, variables: {id: "3"}});
             expect(data.errors).toBeUndefined();
             expect(data.data.deleteTodo).toBe(true)
+        });
+
+        it("displays entries in alphabetically descending order", async() =>{
+          const createTopEntry = await mutate({mutation: CREATE_TODO, variables:{text: "z test"}});
+          expect(createTopEntry.errors).toBeUndefined();
+          const todoId = createTopEntry.data.createTodo.id;
+          const todoListData = await query({query: ALL_TODOS_QUERY, variables: {page:0 }});
+          expect(todoListData.errors).toBeUndefined();
+          expect(todoListData.data.todos.length).toBeGreaterThan(0);
+          expect(todoListData.data.todos[0].text).toBe("z test");
+          const deleteTopEntrys = await mutate({mutation: DELETE_TODO, variables: {text: "z test"}})
         });
     });
 });
