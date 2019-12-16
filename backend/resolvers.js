@@ -8,15 +8,20 @@ const resolvers = {
     Query: {
         todos: async (parent, args, context) => {
             const currentUser = context.user.name;
+            const page = args.page
             console.log(`INFO - Got 'ALL_TODOS_QUERY' from user ‘${currentUser}'`);
             const session = context.driver.session();
             try {
                 const todosQuery = await session.run(
                     'MATCH (t:Todo)-[:BELONGS]->(u:User)\n' +
                     'WHERE u.name = $userName\n' +
-                    'RETURN t ORDER BY t.text DESC',
+                    'RETURN t\n' +
+                    'ORDER BY t.text DESC\n'+
+                    'SKIP $page\n'+
+                    'LIMIT 5',
                     {
-                        userName: currentUser
+                        userName: currentUser,
+                        page: (page * 5)
                     });
                 const todos = todosQuery.records.map(todo => todo.get('t').properties);
                 todos.forEach(todo => todo.user = currentUser);

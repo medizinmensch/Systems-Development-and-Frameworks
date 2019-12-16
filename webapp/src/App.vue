@@ -38,12 +38,16 @@
                 this.todos = [];
                 this.$apollo
                     .query({
-                        query: ALL_TODOS_QUERY
+                        query: ALL_TODOS_QUERY,
+                        variables: {
+                          page: 0
+                        }
                     })
                     .then(data => {
                       let tmp = data.data.todos;
+                      console.log(tmp)
                       tmp.forEach(todo => todo.editMode = false);
-                        this.todos = tmp
+                      this.todos = tmp
                     })
                     .catch(error => {
                         console.error(error);

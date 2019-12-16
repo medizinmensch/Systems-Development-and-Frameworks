@@ -10,8 +10,8 @@ export const LOGIN = gql`
 `;
 
 export const ALL_TODOS_QUERY = gql`
-    query todosQuery {
-        todos {
+    query todosQuery ($page: Int!) {
+        todos (page: $page) {
             id
             text
             user
