@@ -45,7 +45,6 @@
                     })
                     .then(data => {
                       let tmp = data.data.todos;
-                      console.log(tmp)
                       tmp.forEach(todo => todo.editMode = false);
                       this.todos = tmp
                     })
