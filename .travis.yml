@@ -3,30 +3,12 @@ language: node_js
 node_js:
     - "stable"
 
-#borrowed from markmssd https://github.com/travis-ci/travis-ci/issues/3243#issuecomment-318886043
-jdk:
-  # Needed for local Neo4j 2.0+
-  - oraclejdk8
-
-env:
-  - NEO4J_VERSION="3.5.14"
-  - NEO4J_USER=neo4j
-  - NEO4J_PASSWORD=wordpass
-  - NEO4J_URI=bolt://localhost:7867
-
-cache:
-  directories:
-    - node_modules
+services:
+    - docker
 
 before_install:
-  # Install Neo4j locally:
-  - wget dist.neo4j.org/neo4j-community-$NEO4J_VERSION-unix.tar.gz
-  - tar -xzf neo4j-community-$NEO4J_VERSION-unix.tar.gz
-  - neo4j-community-$NEO4J_VERSION/bin/neo4j start
-  # HACK need to change the password initially; changing it and then reverting:
-  - sleep 10  # give Neo4J some time to start
-  - curl -v POST bolt://neo4j:wordpass@localhost:7687/user/neo4j/password -d"password=wordpass2"
-  - curl -v POST bolt://neo4j:wordpass2@localhost:7687/user/neo4j/password -d"password=wordpass"
+    - curl -v POST http://neo4j:neo4j@localhost:7474/user/neo4j/password -d"password=wordpass2"
+    - curl -v POST http://neo4j:wordpass2@localhost:7474/user/neo4j/password -d"password=wordpass"
 
 # credit to aradar / NoraAnlima for config inspiration
 install:
