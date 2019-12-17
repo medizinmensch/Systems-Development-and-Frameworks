@@ -197,6 +197,8 @@ describe('User is not logged in', () => {
         expect(data.errors[0].message).toBe("Not Authorised!")
     });
     it("Login", async () => {
+        console.log(`email: ${testUserEmail}`);
+        console.log(`pw: ${testUserPassword}`);
         const data = await mutate(
             {
                 mutation: LOGIN,
