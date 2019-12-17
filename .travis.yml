@@ -7,7 +7,8 @@ services:
     - docker
 
 env:
-    - NEO4J_USER=neo4j NEO4J_PASSWORD=wordpass NEO4J_URI=bolt://localhost:7687
+    - NEO4J_USER=neo4j NEO4J_PASSWORD=wordpass NEO4J_URI=bolt://localhost:7687 TESTUSER_NAME=testuser TESTUSER_EMAIL=testuser@aol.com TESTUSER_PASSWORD=test123
+
 
 
 # credit to aradar / NoraAnlima for config inspiration
