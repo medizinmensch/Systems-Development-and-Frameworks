@@ -88,7 +88,7 @@ describe('User is logged in', () => {
         query = testClient.query;
         mutate = testClient.mutate;
     });
-    
+
     afterEach(async () => {
         //remove token header
         testServer = getTestApolloServer();
@@ -115,11 +115,11 @@ describe('User is logged in', () => {
         })
 
         it('Paged query returns no todos as testuser has less than 20 todos', async () => {
-            const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {page:1}});
+            const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {page:10}});
             expect(data.errors).toBeUndefined();
             expect(data.data.todos.length).toBe(0);
         })
-        
+
         it('Sized query returns right amount of todos', async () => {
             const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {size:1}});
             expect(data.errors).toBeUndefined();
