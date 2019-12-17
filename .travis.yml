@@ -25,8 +25,8 @@ before_install:
   - neo4j-community-$NEO4J_VERSION/bin/neo4j start
   # HACK need to change the password initially; changing it and then reverting:
   - sleep 10  # give Neo4J some time to start
-  - curl -v POST http://neo4j:neo4j@localhost:7474/user/neo4j/password -d"password=wordpass2"
-  - curl -v POST http://neo4j:neo4j2@localhost:7474/user/neo4j/password -d"password=wordpass"
+  - curl -v POST bolt://neo4j:wordpass@localhost:7687/user/neo4j/password -d"password=wordpass2"
+  - curl -v POST bolt://neo4j:wordpass2@localhost:7687/user/neo4j/password -d"password=wordpass"
 
 # credit to aradar / NoraAnlima for config inspiration
 install:
