@@ -25,12 +25,26 @@ const LOGIN = gql`
 `;
 
 const ALL_TODOS_QUERY = gql`
-    query todosQuery ($page: Int!){
-        todos (page: $page){
+    query todosQuery{
+        todos{
             id
             text
-            user
-        }
+            user {
+                name
+            }
+         }
+    }
+`;
+
+const ALL_TODOS_QUERY_PAGINATED = gql`
+    query todosQuery ($page: Int, $size: Int ){
+        todos (page: $page, size: $size){
+            id
+            text
+            user {
+                name
+            }
+         }
     }
 `;
 
@@ -39,7 +53,9 @@ const CREATE_TODO = gql`
         createTodo(text: $text) {
             id
             text
-            user
+            user {
+                name
+            }
         }
     }
 `;
@@ -72,22 +88,46 @@ describe('User is logged in', () => {
         query = testClient.query;
         mutate = testClient.mutate;
     });
+    
     afterEach(async () => {
         //remove token header
         testServer = getTestApolloServer();
         testClient = createTestClient(testServer);
     });
+
     describe('Queries', () => {
         it("has start todo todos", async () => {
-            const data = await query({query: ALL_TODOS_QUERY, variables: {page:0 }});
+            const data = await query({query: ALL_TODOS_QUERY});
             expect(data.errors).toBeUndefined();
             expect(data.data.todos.length).toBeGreaterThan(0);
-            //pagination test
-            expect(data.data.todos.length).toBeLessThanOrEqual(5)
-            expect(data.data.todos[0].user).toBe(testUserName)
+            expect(data.data.todos.length).toBeLessThanOrEqual(20) // 20 is the std
+            expect(data.data.todos[0].user.name).toBe(testUserName)
         });
-
     });
+
+    describe('Pagination', () => {
+        it("Paginated and sized query has limited amount of todos per page", async () => {
+            const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {page:0, size: 3 }});
+            expect(data.errors).toBeUndefined();
+            expect(data.data.todos.length).toBeGreaterThan(0);
+            expect(data.data.todos.length).toBeLessThanOrEqual(3);
+            expect(data.data.todos[0].user.name).toBe(testUserName)
+        })
+
+        it('Paged query returns no todos as testuser has less than 20 todos', async () => {
+            const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {page:1}});
+            expect(data.errors).toBeUndefined();
+            expect(data.data.todos.length).toBe(0);
+        })
+        
+        it('Sized query returns right amount of todos', async () => {
+            const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {size:1}});
+            expect(data.errors).toBeUndefined();
+            expect(data.data.todos.length).toBe(1);
+            expect(data.data.todos[0].user.name).toBe(testUserName)
+        })
+    })
+
 
     describe('Mutations', () => {
         const exampleText = "example text";
@@ -95,14 +135,14 @@ describe('User is logged in', () => {
         it("creates entry", async () => {
             const data = await mutate({mutation: CREATE_TODO, variables: {text: exampleText}});
             expect(data.data.createTodo.text).toBe(exampleText);
-            expect(data.data.createTodo.user).toBe(testUserName)
+            expect(data.data.createTodo.user.name).toBe(testUserName)
         });
         it("creates and then updates entry", async () => {
             const createData = await mutate({mutation: CREATE_TODO, variables: {text: exampleText}});
             expect(createData.errors).toBeUndefined();
             const todoId = createData.data.createTodo.id;
             expect(createData.data.createTodo.text).toBe(exampleText);
-            expect(createData.data.createTodo.user).toBe(testUserName);
+            expect(createData.data.createTodo.user.name).toBe(testUserName);
             const updateData = await mutate({mutation: UPDATE_TODO, variables: {id: todoId, text: exampleText2}});
             expect(updateData.errors).toBeUndefined();
             expect(updateData.data.updateTodo.text).toBe(exampleText2);

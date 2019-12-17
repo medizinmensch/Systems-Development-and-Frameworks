@@ -81,12 +81,13 @@ const resolvers = {
             }
             //create relationship
             const session2 = context.driver.session();
+            let rel_query = ''
             try {
-                await session2.run(
+                rel_query = await session2.run(
                     'MATCH (u:User), (t:Todo) \n' +
                     'WHERE u.name = $user_name AND t.id = $todo_id \n' +
                     'CREATE (t)-[r:BELONGS]->(u)\n' +
-                    'RETURN u.name, type(r), t.id',
+                    'RETURN u, type(r), t.id',
                     {
                         user_name: context.user.name,
                         todo_id: todo.id
@@ -95,7 +96,7 @@ const resolvers = {
             } finally {
                 session2.close()
             }
-            todo.user = context.user.name;
+            todo.user = rel_query.records[0].get('u').properties;
             return todo
         },
         updateTodo: async (parent, args, context) => {
