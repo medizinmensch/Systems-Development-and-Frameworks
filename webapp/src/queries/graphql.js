@@ -14,7 +14,9 @@ export const ALL_TODOS_QUERY = gql`
         todos (page: $page) {
             id
             text
-            user
+            user {
+                name
+            }
         }
     }
 `;
@@ -24,7 +26,6 @@ export const CREATE_TODO = gql`
         createTodo(text: $text) {
             id
             text
-            user
         }
     }
 `;

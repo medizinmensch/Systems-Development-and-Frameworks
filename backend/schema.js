@@ -2,7 +2,7 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
     type Query {
-        todos(page:Int!): [Todo]
+        todos(page: Int, size: Int): [Todo]
     }
     type Mutation {
         login(email: String!, password: String!): Login
@@ -14,7 +14,7 @@ const typeDefs = gql`
     type Todo {
         id: String!
         text: String!
-        user: String!
+        user: User
     }
     type User {
         id: Int!

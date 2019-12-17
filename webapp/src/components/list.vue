@@ -43,7 +43,6 @@
                     .then(data => {
                         let item = data.data.createTodo;
                         item.editMode = true;
-
                         this.todos.push(item);
                     })
                     .catch(error => {

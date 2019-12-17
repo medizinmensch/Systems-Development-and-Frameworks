@@ -29,7 +29,7 @@
         </div>
         <div class="col-2 py-3 border bg-light">
             <form class="text">
-                <p id="username" >{{ entry.user }}</p>
+                <p id="username" >{{ entry.user.name }}</p>
             </form>
         </div>
         <div class="col-2 py-3 border bg-light">
