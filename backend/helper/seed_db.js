@@ -8,6 +8,9 @@ users.forEach(user => {
     exampleUsers.push(user.name);
 });
 
+const driver = getDriver();
+const amountOfTodos = 15;
+
 async function createTestUser() {
     console.log(`Creating test data. ${users.length} User's will be created.`);
     for (let i = 0; i<users.length; i++) {
@@ -59,14 +62,18 @@ async function createTestTodos(amount) {
     }
 }
 
-async function createTestData() {
-    await createTestUser();
-    await createTestTodos(amountOfTodos);
-}
+(async function() {
+    try {
+        await createTestUser();
+        await createTestTodos(amountOfTodos);
+        console.log("INFO - Finished seeding database.");
+        process.exit(0)
+    } catch (err) {
+        console.log(err);
+        process.exit(1)
+    }
+})();
 
-const driver = getDriver();
-const amountOfTodos = 15;
-createTestData();
 
 
 
