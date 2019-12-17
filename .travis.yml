@@ -10,6 +10,9 @@ jdk:
 
 env:
   - NEO4J_VERSION="3.5.14"
+  - NEO4J_USER=neo4j
+  - NEO4J_PASSWORD=wordpass
+  - NEO4J_URI=bolt://localhost:7867
 
 cache:
   directories:
