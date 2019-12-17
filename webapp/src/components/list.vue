@@ -1,16 +1,16 @@
 <template>
-    <div>
+    <div id="todoList">
         <div class="container px-lg-5">
             <listitem
-                    @deleteEntry="deleteTodo"
+                    @deleteTodo="deleteTodo"
                     @toggleEditMode="toggleEditMode"
                     v-for="todo in todos"
-                    :entry="todo"
+                    :todo="todo"
                     :key="todo.id"
             ></listitem>
             <div class="row mx-lg-n5">
                 <div class="col-12 py-3 border bg-light">
-                    <button class="btn btn-success" type="button" @click="createTodo" id="btnAdd">Add</button>
+                    <button id="buttonAdd" class="btn btn-success" type="button" @click="createTodo" >Add</button>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
     import {USER} from "../constants/settings";
 
     export default {
-        name: "list",
+        name: "todoList",
         props: {
             todos: Array
         },
@@ -42,7 +42,7 @@
                     })
                     .then(data => {
                         let item = data.data.createTodo;
-                        item.editMode = true;
+                        item.editMode = false;
                         this.todos.push(item);
                     })
                     .catch(error => {
@@ -69,7 +69,7 @@
                                 text: entry.text
                             }
                         })
-                        .then(data => {
+                        .then(() => {
                             console.log("updated todo.");
                         })
                         .catch(error => {

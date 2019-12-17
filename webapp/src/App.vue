@@ -38,10 +38,7 @@
                 this.todos = [];
                 this.$apollo
                     .query({
-                        query: ALL_TODOS_QUERY,
-                        variables: {
-                          page: 0
-                        }
+                        query: ALL_TODOS_QUERY
                     })
                     .then(data => {
                       let tmp = data.data.todos;

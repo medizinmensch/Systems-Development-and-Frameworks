@@ -18,8 +18,8 @@
         </div>
       </div>
     </form>
-    <button class="btn btn-primary" @click="login">Login</button>
-    <button class="btn btn-primary" @click="logout">Logout</button>
+    <button id="loginButton" class="btn btn-primary" @click="login">Login</button>
+    <button id="logoutButton" class="btn btn-primary" @click="logout">Logout</button>
   </div>
 </template>
 

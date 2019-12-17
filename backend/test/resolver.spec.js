@@ -132,12 +132,12 @@ describe('User is logged in', () => {
     describe('Mutations', () => {
         const exampleText = "example text";
         const exampleText2 = "new example text";
-        it("creates entry", async () => {
+        it("creates todo", async () => {
             const data = await mutate({mutation: CREATE_TODO, variables: {text: exampleText}});
             expect(data.data.createTodo.text).toBe(exampleText);
             expect(data.data.createTodo.user.name).toBe(testUserName)
         });
-        it("creates and then updates entry", async () => {
+        it("creates and then updates todo", async () => {
             const createData = await mutate({mutation: CREATE_TODO, variables: {text: exampleText}});
             expect(createData.errors).toBeUndefined();
             const todoId = createData.data.createTodo.id;
@@ -148,7 +148,7 @@ describe('User is logged in', () => {
             expect(updateData.data.updateTodo.text).toBe(exampleText2);
 
         });
-        it("deletes entry", async () => {
+        it("deletes todo", async () => {
             const data = await mutate({mutation: DELETE_TODO, variables: {id: "3"}});
             expect(data.errors).toBeUndefined();
             expect(data.data.deleteTodo).toBe(true)
