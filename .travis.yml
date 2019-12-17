@@ -6,6 +6,12 @@ node_js:
 services:
     - docker
 
+env:
+    - NEO4J_USER=neo4j
+    - NEO4J_PASSWORD=wordpass
+    - NEO4J_URI=bolt://localhost:7687
+
+
 # credit to aradar / NoraAnlima for config inspiration
 install:
     - yarn --cwd ./webapp install
