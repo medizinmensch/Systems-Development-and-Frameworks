@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 const { verifyToken } = require('../helper/jwt.js');
 
 let testServer = getTestApolloServer();
-let testClient;
+let testClient = createTestClient(testServer);
 let query = testClient.query;
 let mutate = testClient.mutate;
 
@@ -146,7 +146,6 @@ describe('User is logged in', () => {
             const updateData = await mutate({mutation: UPDATE_TODO, variables: {id: todoId, text: exampleText2}});
             expect(updateData.errors).toBeUndefined();
             expect(updateData.data.updateTodo.text).toBe(exampleText2);
-
         });
         it("deletes entry", async () => {
             const data = await mutate({mutation: DELETE_TODO, variables: {id: "3"}});
@@ -162,7 +161,7 @@ describe('User is logged in', () => {
           expect(todoListData.data.todos.length).toBeGreaterThan(0);
           expect(todoListData.data.todos[0].text).toBe("z test");
           const deleteTopEntrys = await mutate({mutation: DELETE_TODO, variables: {text: "z test"}})
-          expect(deleteTopEntrys.errors).toBeUndefined();
+          expect(deleteTopEntrys.errors).toBeUndefined()
         });
     });
 });
