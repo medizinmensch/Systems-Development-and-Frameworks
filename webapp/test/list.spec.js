@@ -25,7 +25,7 @@ describe('list.vue', () => {
       $apollo: {
         mutate: jest.fn().mockResolvedValue(32)
       },
-      items: {}
+      items: items
     };
     wrapper = Wrapper()
   });

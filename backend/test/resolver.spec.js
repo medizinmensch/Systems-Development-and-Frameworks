@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 const { verifyToken } = require('../helper/jwt.js');
 
 let testServer = getTestApolloServer();
-let testClient = createTestClient(testServer);
+let testClient;
 let query = testClient.query;
 let mutate = testClient.mutate;
 
@@ -157,12 +157,12 @@ describe('User is logged in', () => {
         it("displays entries in alphabetically descending order", async() =>{
           const createTopEntry = await mutate({mutation: CREATE_TODO, variables:{text: "z test"}});
           expect(createTopEntry.errors).toBeUndefined();
-          const todoId = createTopEntry.data.createTodo.id;
           const todoListData = await query({query: ALL_TODOS_QUERY, variables: {page:0 }});
           expect(todoListData.errors).toBeUndefined();
           expect(todoListData.data.todos.length).toBeGreaterThan(0);
           expect(todoListData.data.todos[0].text).toBe("z test");
           const deleteTopEntrys = await mutate({mutation: DELETE_TODO, variables: {text: "z test"}})
+          expect(deleteTopEntrys.errors).toBeUndefined();
         });
     });
 });

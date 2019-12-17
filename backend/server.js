@@ -5,7 +5,7 @@ const { ApolloServer } = require('apollo-server');
 const typeDefs = require('./schema.js');
 const resolvers = require('./resolvers.js');
 const permissions = require('./permissions.js');
-const { getContext, getTestContext } = require('./helper/context.js');
+const { getContext} = require('./helper/context.js');
 
 const schema = applyMiddleware(
     makeExecutableSchema({

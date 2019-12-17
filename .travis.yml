@@ -1,9 +1,29 @@
 language: node_js
-services:
-  - neo4j
 
 node_js:
     - "stable"
+
+#borrowed from markmssd https://github.com/travis-ci/travis-ci/issues/3243#issuecomment-318886043
+jdk:
+  # Needed for local Neo4j 2.0+
+  - oraclejdk8
+
+env:
+  - NEO4J_VERSION="3.5.14"
+
+cache:
+  directories:
+    - node_modules
+
+before_install:
+  # Install Neo4j locally:
+  - wget dist.neo4j.org/neo4j-community-$NEO4J_VERSION-unix.tar.gz
+  - tar -xzf neo4j-community-$NEO4J_VERSION-unix.tar.gz
+  - neo4j-community-$NEO4J_VERSION/bin/neo4j start
+  # HACK need to change the password initially; changing it and then reverting:
+  - sleep 10  # give Neo4J some time to start
+  - curl -v POST http://neo4j:neo4j@localhost:7474/user/neo4j/password -d"password=wordpass2"
+  - curl -v POST http://neo4j:neo4j2@localhost:7474/user/neo4j/password -d"password=wordpass"
 
 # credit to aradar / NoraAnlima for config inspiration
 install:
@@ -11,6 +31,7 @@ install:
     - yarn --cwd ./backend install
 
 script:
+    - node ./backend/helper/seed_db.js
     - yarn --cwd ./webapp run build
     - yarn --cwd ./webapp run lint
     - yarn --cwd ./webapp run test
