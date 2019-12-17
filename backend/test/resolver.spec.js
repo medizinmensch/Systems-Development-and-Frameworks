@@ -2,7 +2,7 @@ const {gql} = require('apollo-server-express');
 const {createTestClient} = require('apollo-server-testing');
 const {getTestApolloServer} = require('../server.js');
 const dotenv = require("dotenv");
-const { verifyToken } = require('../helper/jwt.js');
+const {verifyToken} = require('../helper/jwt.js');
 
 let testServer = getTestApolloServer();
 let testClient = createTestClient(testServer);
@@ -32,7 +32,7 @@ const ALL_TODOS_QUERY = gql`
             user {
                 name
             }
-         }
+        }
     }
 `;
 
@@ -44,7 +44,7 @@ const ALL_TODOS_QUERY_PAGINATED = gql`
             user {
                 name
             }
-         }
+        }
     }
 `;
 
@@ -107,7 +107,7 @@ describe('User is logged in', () => {
 
     describe('Pagination', () => {
         it("Paginated and sized query has limited amount of todos per page", async () => {
-            const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {page:0, size: 3 }});
+            const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {page: 0, size: 3}});
             expect(data.errors).toBeUndefined();
             expect(data.data.todos.length).toBeGreaterThan(0);
             expect(data.data.todos.length).toBeLessThanOrEqual(3);
@@ -115,13 +115,13 @@ describe('User is logged in', () => {
         });
 
         it('Paged query returns no todos as testuser has less than 20 todos', async () => {
-            const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {page:10}});
+            const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {page: 10}});
             expect(data.errors).toBeUndefined();
             expect(data.data.todos.length).toBe(0);
         });
 
         it('Sized query returns right amount of todos', async () => {
-            const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {size:1}});
+            const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {size: 1}});
             expect(data.errors).toBeUndefined();
             expect(data.data.todos.length).toBe(1);
             expect(data.data.todos[0].user.name).toBe(testUserName)
@@ -153,15 +153,17 @@ describe('User is logged in', () => {
             expect(data.data.deleteTodo).toBe(true)
         });
 
-        it("displays entries in alphabetically descending order", async() =>{
-          const createTopEntry = await mutate({mutation: CREATE_TODO, variables:{text: "z test"}});
-          expect(createTopEntry.errors).toBeUndefined();
-          const todoListData = await query({query: ALL_TODOS_QUERY, variables: {page:0 }});
-          expect(todoListData.errors).toBeUndefined();
-          expect(todoListData.data.todos.length).toBeGreaterThan(0);
-          expect(todoListData.data.todos[0].text).toBe("z test");
-          const deleteTopEntrys = await mutate({mutation: DELETE_TODO, variables: {text: "z test"}})
-          expect(deleteTopEntrys.errors).toBeUndefined()
+        it("displays entries in alphabetically descending order", async () => {
+            const createTopEntry = await mutate({mutation: CREATE_TODO, variables: {text: "z test"}});
+            expect(createTopEntry.errors).toBeUndefined();
+            const todoListData = await query({query: ALL_TODOS_QUERY, variables: {page: 0}});
+            expect(todoListData.errors).toBeUndefined();
+            expect(todoListData.data.todos.length).toBeGreaterThan(0);
+            expect(todoListData.data.todos[0].text).toBe("z test");
+            const id = todoListData.data.todos[0].id;
+            const deleteTopEntrys = await mutate({mutation: DELETE_TODO, variables: {id: id}});
+            expect(deleteTopEntrys.errors).toBeUndefined();
+            expect(deleteTopEntrys.data.deleteTodo).toBe(true);
         });
     });
 });
@@ -206,8 +208,6 @@ describe('User is not logged in', () => {
                 }
             }
         );
-        console.log(data.errors);
-        console.log(data.errors[0]);
         expect(data.errors).toBeUndefined();
         expect(data.data.login.user).toBe(testUserName);
 
@@ -216,6 +216,5 @@ describe('User is not logged in', () => {
         expect(user.name).toBe(testUserName);
         expect(user.email).toBe(testUserEmail);
         expect(user.password).toBe(testUserPassword);
-
     })
 });
