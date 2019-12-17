@@ -112,13 +112,13 @@ describe('User is logged in', () => {
             expect(data.data.todos.length).toBeGreaterThan(0);
             expect(data.data.todos.length).toBeLessThanOrEqual(3);
             expect(data.data.todos[0].user.name).toBe(testUserName)
-        })
+        });
 
         it('Paged query returns no todos as testuser has less than 20 todos', async () => {
             const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {page:10}});
             expect(data.errors).toBeUndefined();
             expect(data.data.todos.length).toBe(0);
-        })
+        });
 
         it('Sized query returns right amount of todos', async () => {
             const data = await query({query: ALL_TODOS_QUERY_PAGINATED, variables: {size:1}});
@@ -126,7 +126,7 @@ describe('User is logged in', () => {
             expect(data.data.todos.length).toBe(1);
             expect(data.data.todos[0].user.name).toBe(testUserName)
         })
-    })
+    });
 
 
     describe('Mutations', () => {
@@ -146,7 +146,6 @@ describe('User is logged in', () => {
             const updateData = await mutate({mutation: UPDATE_TODO, variables: {id: todoId, text: exampleText2}});
             expect(updateData.errors).toBeUndefined();
             expect(updateData.data.updateTodo.text).toBe(exampleText2);
-
         });
         it("deletes todo", async () => {
             const data = await mutate({mutation: DELETE_TODO, variables: {id: "3"}});
@@ -157,12 +156,12 @@ describe('User is logged in', () => {
         it("displays entries in alphabetically descending order", async() =>{
           const createTopEntry = await mutate({mutation: CREATE_TODO, variables:{text: "z test"}});
           expect(createTopEntry.errors).toBeUndefined();
-          const todoId = createTopEntry.data.createTodo.id;
           const todoListData = await query({query: ALL_TODOS_QUERY, variables: {page:0 }});
           expect(todoListData.errors).toBeUndefined();
           expect(todoListData.data.todos.length).toBeGreaterThan(0);
           expect(todoListData.data.todos[0].text).toBe("z test");
           const deleteTopEntrys = await mutate({mutation: DELETE_TODO, variables: {text: "z test"}})
+          expect(deleteTopEntrys.errors).toBeUndefined()
         });
     });
 });

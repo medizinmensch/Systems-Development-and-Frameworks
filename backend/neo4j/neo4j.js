@@ -13,7 +13,7 @@ function getDriver(options = {}) {
         password = pw,
     } = options;
     if (!driver) {
-        driver = neo4j.driver(uri, neo4j.auth.basic(user, pw))
+        driver = neo4j.driver(uri, neo4j.auth.basic(username, password))
     }
     return driver
 }

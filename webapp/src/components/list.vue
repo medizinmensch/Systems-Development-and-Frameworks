@@ -71,6 +71,7 @@
                         })
                         .then(() => {
                             console.log("updated todo.");
+                            console.log(data)
                         })
                         .catch(error => {
                             console.error(error);
