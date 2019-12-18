@@ -1,13 +1,13 @@
 <template>
     <div id="todoList">
         <div class="container px-lg-5">
-            <listitem
+            <todo
                     @deleteTodo="deleteTodo"
                     @toggleEditMode="toggleEditMode"
                     v-for="todo in todos"
                     :todo="todo"
                     :key="todo.id"
-            ></listitem>
+            ></todo>
             <div>
                 <div class="row mx-lg-n5 jest-list-item">
                     <div class="col py-3 border bg-light">
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import listitem from "./listitem.vue";
+    import todo from "./todo.vue";
     import {ALL_TODOS_QUERY_PAGINATED, DELETE_TODO, CREATE_TODO, UPDATE_TODO} from "../queries/graphql.js";
     import {USER} from "../constants/settings";
 
@@ -43,7 +43,7 @@
             todos: Array,
         },
         components: {
-            listitem
+            todo
         },
         methods: {
             createTodo: function () {

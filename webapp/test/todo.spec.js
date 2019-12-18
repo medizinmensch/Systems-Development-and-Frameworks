@@ -1,5 +1,6 @@
 import {mount} from '@vue/test-utils';
-import listitem from '../src/components/listitem.vue';
+import todo from '../src/components/todo.vue';
+const uuidv1 = require('uuid/v1');
 
 const testUserName = "testUser";
 const exampleItem = {id: "0", text: "first todo", user: {name: testUserName, id: "0"}, editMode: false};
@@ -7,9 +8,11 @@ const propsData = {todo: exampleItem};
 
 let wrapper;
 
+let mocks;
+
 describe('todo item', () => {
     beforeEach(() => {
-        wrapper = mount(listitem, {propsData});
+        wrapper = mount(todo, {propsData});
     });
     it('shows text of todo item', () => {
         expect(wrapper.contains('#todoText')).toBe(true);
@@ -46,9 +49,12 @@ describe('todo item', () => {
 
     describe('when the edit button is pressed', () => {
         beforeEach(() => {
+            mocks = {$apollo: {mutate: jest.fn().mockResolvedValue({data: {updateTodo: {id: uuidv1(), text: "mocked Todo",}}})}};
+            wrapper = mount(todo, {mocks, propsData});
             wrapper.find('#buttonEdit').trigger('click');
             //wrapper.vm.$emit('toggleEditMode');
-            //wrapper.vm.$nextTick();
+            //wrapper.vm.$forceUpdate();
+            //wrapper.vm.$nextTick()
         });
         it('emits a ToggleEditMode event', () => {
             expect(wrapper.emitted('toggleEditMode'));
@@ -60,10 +66,20 @@ describe('todo item', () => {
         //it('shows save button', () => {
         //    expect(wrapper.contains('#buttonSave')).toBe(true)
         //});
+
+        //describe('when the save button is pressed', () => {
+        //    beforeEach(() => {
+        //        wrapper.find('#buttonSave').trigger('click');
+        //    });
+        //    it('emits a ToggleEditMode event', () => {
+        //        expect(wrapper.emitted('toggleEditMode'));
+        //    });
+        //});
     });
 
     describe('when the delete button is pressed', () => {
         beforeEach(() => {
+            wrapper = mount(todo, {propsData});
             wrapper.find('#buttonDelete').trigger('click');
         });
         it('emits a DeleteEntry event', () => {
