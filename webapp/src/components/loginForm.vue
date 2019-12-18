@@ -51,7 +51,9 @@ export default {
           localStorage.setItem(AUTH_TOKEN, data.data.login.token);
           localStorage.setItem(USER, data.data.login.user);
           this.$emit("successfulLogin")
-        })
+        }).catch(error => {
+          alert(error);
+      });
     },
     logout: function () {
       localStorage.removeItem(AUTH_TOKEN);
