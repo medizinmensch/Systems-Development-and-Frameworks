@@ -67,7 +67,7 @@ async function createTestTodos(amount) {
         await createTestUser();
         await createTestTodos(amountOfTodos);
         console.log("INFO - Finished seeding database.");
-        driver.close()
+        driver.close();
         process.exit(0)
     } catch (err) {
         console.log(err);
