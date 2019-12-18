@@ -21,6 +21,18 @@ export const ALL_TODOS_QUERY = gql`
     }
 `;
 
+export const ALL_TODOS_QUERY_PAGINATED = gql`
+    query todosQueryPaginated($size: Int, $page: Int) {
+        todos(size: $size, page: $page) {
+            id
+            text
+            user {
+                name
+            }
+        }
+    }
+`;
+
 export const CREATE_TODO = gql`
     mutation createTodo($text: String!) {
         createTodo(text: $text) {

@@ -8,9 +8,19 @@
                     :todo="todo"
                     :key="todo.id"
             ></listitem>
-            <div class="row mx-lg-n5">
-                <div class="col-12 py-3 border bg-light">
-                    <button id="buttonAdd" class="btn btn-success" type="button" @click="createTodo" >Add</button>
+            <div>
+                <div class="row mx-lg-n5 jest-list-item">
+                    <div class="col py-3 border bg-light">
+                        <label size="6" class="infoLabel">Add ToDo:</label>
+                        <button id="buttonAdd" class="btn btn-success" type="button" @click="createTodo">Add</button>
+                    </div>
+                    <div class="col py-3 border bg-light">
+                        <label size="8" class="infoLabel">Pagination:</label>
+                        <button id="previousPageButton" class="btn btn-success" type="button" @click="previousPage"><<
+                        </button>
+                        <label id="pageField" size="4" v-model="page">{{page}}</label>
+                        <button id="nextPageButton" class="btn btn-success" type="button" @click="nextPage">>></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -19,13 +29,18 @@
 
 <script>
     import listitem from "./listitem.vue";
-    import {DELETE_TODO, CREATE_TODO, UPDATE_TODO} from "../queries/graphql.js";
+    import {ALL_TODOS_QUERY_PAGINATED, DELETE_TODO, CREATE_TODO, UPDATE_TODO} from "../queries/graphql.js";
     import {USER} from "../constants/settings";
 
     export default {
         name: "todoList",
+        data: function () {
+            return {
+                page: 0,
+            }
+        },
         props: {
-            todos: Array
+            todos: Array,
         },
         components: {
             listitem
@@ -80,10 +95,29 @@
                 this.todos.forEach(i => {
                     if (i.id === entry.id) i.editMode = !i.editMode;
                 });
-            }
+            },
+            previousPage: function () {
+                if (this.page > 0) {
+                    this.page -= 1;
+                    this.$emit('changePage', this.page);
+                }
+
+            },
+            nextPage: function () {
+                this.page += 1;
+                this.$emit('changePage', this.page)
+            },
         }
     };
 </script>
 
 <style scoped>
+    .btn-success {
+        margin-right: 30px;
+        margin-left: 30px;
+    }
+    .infoLabel {
+        margin-left: 30px;
+    }
+
 </style>
