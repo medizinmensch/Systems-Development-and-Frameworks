@@ -12,6 +12,7 @@ const resolvers = {
             let size = 20;
             if (typeof args.page != "undefined") page = args.page;
             if (typeof args.size != "undefined") size = args.size;
+
             console.log(`INFO - Got 'ALL_TODOS_QUERY' from user ‘${currentUser}'`);
             const session = context.driver.session();
             try {

@@ -19,6 +19,7 @@ install:
     - docker run -p 7474:7474 -p 7687:7687 --volume=$HOME/data:/data --volume=$HOME/logs:/logs --env=NEO4J_dbms_memory_pagecache_size=4G --env NEO4J_AUTH=neo4j/wordpass -d --name sdaf_neo4j sdaf_neo4j
     - sleep 15
     - yarn --cwd ./backend run db:seed
+
 script:
     - yarn --cwd ./webapp run build
     - yarn --cwd ./webapp run lint
