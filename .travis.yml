@@ -1,8 +1,15 @@
 language: node_js
 node_js:
-    - 9
+    - "stable"
+
+# credit to aradar / NoraAnlima for config inspiration
+install:
+    - yarn --cwd ./webapp install
+    - yarn --cwd ./backend install
 
 script:
-    - yarn run build
-    - yarn run lint
-    - yarn test
+    - yarn --cwd ./webapp run build
+    - yarn --cwd ./webapp run lint
+    - yarn --cwd ./webapp run test
+    - yarn --cwd ./backend run lint
+    - yarn --cwd ./backend test

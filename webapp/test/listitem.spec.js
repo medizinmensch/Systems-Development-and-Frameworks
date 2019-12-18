@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils';
 import listitem from '../src/components/listitem.vue';
 
 describe('listitem.vue', () => {
-  const wrapper = mount(listitem, {
+    const wrapper = mount(listitem, {
     propsData: {
       entry: { text: "test a todo list and its content" },
     }
@@ -13,7 +13,7 @@ describe('listitem.vue', () => {
   });
 
   it('has rows', () =>{
-    expect(wrapper.html()).toContain('<div class="row mx-lg-n5">');
+    expect(wrapper.html()).toContain('<div class="row mx-lg-n5 jest-list-item">');
   });
 
   it('has columns', () =>{
@@ -21,11 +21,15 @@ describe('listitem.vue', () => {
   });
 
   it('has a delete button', () =>{
-    expect(wrapper.html()).toContain('type="button" name="delete-button" id="buttonDelete"');
+    expect(wrapper.html()).toContain('id="buttonDelete"');
+    expect(wrapper.html()).toContain('name="delete-button"');
+    expect(wrapper.html()).toContain('type="button"');
   });
 
   it('has an edit button', () =>{
-    expect(wrapper.html()).toContain('type="button" name="edit-button" id="buttonEdit"');
+    expect(wrapper.html()).toContain('id="buttonEdit"');
+    expect(wrapper.html()).toContain('name="edit-button"');
+    expect(wrapper.html()).toContain('type="button"');
   });
 
   it('doesn\'t show the edit input immediately', () => {
@@ -40,14 +44,6 @@ describe('listitem.vue', () => {
     it('emits a ToggleEditMode event', () => {
       expect(wrapper.emitted('toggleEditMode'));
     });
-    //the test cases below do not work, as logic for html changes resides outside the listitem component
-
-    // it('shows the edit input field', () => {
-    //   expect(wrapper.html()).toContain('<input type="text" name="newText">');
-    // });
-    // it('renders the save button', () => {
-    //   expect(wrapper.html()).toContain('type="button" name="save-button" id="buttonSave"')
-    // })
   });
 
   describe('when the delete button is pressed', () => {

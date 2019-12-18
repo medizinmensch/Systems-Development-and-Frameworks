@@ -10,17 +10,29 @@
 
 [![Build Status](https://travis-ci.com/medizinmensch/Systems-Development-and-Frameworks.svg?branch=setup-travis)](https://travis-ci.com/medizinmensch/Systems-Development-and-Frameworks)
 
-This Project is made possible by vue-cli and bootstrap
+This Project is made possible by vue-cli, bootstrap, apollo graphql and more.
 
 
 ## Build Setup
 
-``` bash
-# install dependencies
+### Backend
+```bash
+cd backend
 yarn install
-
-# serve with hot reload at localhost:8080
-yarn run dev
+yarn dev
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+### Frontend 
+```bash
+cd webapp
+yarn install
+yarn dev
+```
+
+## Test
+
+Login via:
+**Username:** `admin@aol.com`
+**Password:** `admin123` 
+
+`AFTER LOGIN, YOU HAVE TO RELOAD THE PAGE TO TAKE AFFECT` (bug`)
