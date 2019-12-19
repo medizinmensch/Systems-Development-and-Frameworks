@@ -1,6 +1,23 @@
 <template>
     <div id="todoList">
         <div class="container px-lg-5">
+            <div id="listHeader" class="row mx-lg-n5 jest-list-item">
+                <div id="todoTextHeaderDiv" class="col py-md-3 border bg-light">
+                    <p>Todo</p>
+                </div>
+                <div id="belongingHeaderDiv" class="col-2 py-md-3 border bg-light">
+                    <p>belongsTo</p>
+                </div>
+                <div id="createdAtHeaderDiv" class="col-2 py-md-3 border bg-light">
+                    <p>createdAt</p>
+                </div>
+                <div id="modifiedAtHeaderDiv" class="col-2 py-md-3 border bg-light">
+                    <p>modifiedAt</p>
+                </div>
+                <div id="buttonsHeaderDiv" class="col-2 py-md-3 border bg-light">
+                    <p></p>
+                </div>
+            </div>
             <todo
                     @deleteTodo="deleteTodo"
                     @toggleEditMode="toggleEditMode"
@@ -119,5 +136,8 @@
     .infoLabel {
         margin-left: 30px;
     }
-
+    #listHeader {
+        font-size: 120%;
+        margin: auto
+    }
 </style>

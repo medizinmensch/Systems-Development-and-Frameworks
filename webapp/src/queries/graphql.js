@@ -14,6 +14,8 @@ export const ALL_TODOS_QUERY = gql`
         todos(size: $size, page: $page) {
             id
             text
+            createdAt
+            modifiedAt
             user {
                 name
             }
@@ -26,6 +28,7 @@ export const CREATE_TODO = gql`
         createTodo(text: $text) {
             id
             text
+            createdAt
             user {
                 name
             }

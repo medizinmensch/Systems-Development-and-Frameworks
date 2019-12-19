@@ -39,10 +39,10 @@ describe('todo item', () => {
 
     describe('layout', () => {
         it('has rows', () => {
-            expect(wrapper.html()).toContain('<div class="row mx-lg-n5 jest-list-item">');
+            expect(wrapper.html()).toContain('class="row mx-lg-n5 jest-list-item"');
         });
         it('has columns', () => {
-            expect(wrapper.html()).toContain('<div class="col py-3 border bg-light">');
+            expect(wrapper.html()).toContain('class="col-1 py-md-3 border bg-light"');
         });
     });
 
