@@ -35,6 +35,13 @@ function findUserFromToken(req_user, token) {
     return foundUser
 }
 
+function getCurrentDate() {
+    const event = new Date();
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', seconds: 'numeric'};
+    return event.toLocaleDateString('de-DE', options)
+}
+
 
 
 module.exports.getContext = getContext;
+module.exports.getCurrentDate = getCurrentDate;

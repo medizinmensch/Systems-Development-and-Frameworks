@@ -15,6 +15,10 @@ const typeDefs = gql`
         id: String!
         text: String!
         user: User
+        createdBy: String!
+        createdAt: String!
+        modifiedBy: String
+        modifiedAt: String
     }
     type User {
         id: Int!
