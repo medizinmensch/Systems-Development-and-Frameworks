@@ -1,9 +1,11 @@
 import { mount } from '@vue/test-utils';
 import app from '../src/App.vue';
 import {USER, AUTH_TOKEN} from '../src/constants/settings.js'
+import "babel-polyfill"
 
 const title = "Frontend-Einkaufslisten-Bearbeitungs-Und-Erstellungsmaschine";
 const notLoggedInInfo = "You are not logged in.";
+const loggedInInfo = "You are logged in";
 const loginFormDivName = "loginForm";
 const todoListDivName = "todoList";
 
@@ -32,25 +34,36 @@ describe('App.vue', () => {
       expect(localStorage.getItem(AUTH_TOKEN)).toBeNull;
     });
 
-    // dont test logging in because its not testing only components?
-    //describe("when logging in", async () => {
-    //  beforeEach(async () => {
-    //    wrapper = mount(app);
-    //    // logging in
-    //    const mailInput = wrapper.find('#inputMail');
-    //    mailInput.setValue("admin@aol.com");
-    //    const passwordInput = wrapper.find('#inputPassword');
-    //    passwordInput.setValue("admin123");
-    //    wrapper.find('#loginButton').trigger('click');
-    //    await wrapper.vm.$nextTick();
-    //  });
-    //  it("updated loginInfo", () => {
-    //    console.log(wrapper.text());
-    //    expect(wrapper.text()).toContain(loggedInInfo)
-    //  });
-    //  it("shows todoList", () => {
-//
-    //  });
-    //});
+    describe("when logging in", () => {
+      const tokenValue = "token1234";
+      const userName = "testuser";
+      beforeEach(async () => {
+        const mocks = {$apollo: {
+          query: jest.fn().mockResolvedValue({data: {todos: []}}),
+          mutate: jest.fn().mockResolvedValue({data: {login: {token: tokenValue, user: userName}}})
+        }};
+        wrapper = mount(app, {mocks});
+        // logging in
+        const mailInput = wrapper.find('#inputMail');
+        mailInput.setValue("testuser@aol.com");
+        const passwordInput = wrapper.find('#inputPassword');
+        passwordInput.setValue("test123");
+        wrapper.find('#loginButton').trigger('click');
+        await wrapper.vm.$nextTick();
+      });
+      it("updated loginInfo", () => {
+        expect(wrapper.text()).toContain(loggedInInfo)
+      });
+      it("attempts to call an apollo query", () => {
+        expect(wrapper.vm.$apollo.query).toBeCalled()
+      });
+      it("shows todoList", () => {
+        expect(wrapper.contains('#todoList')).toBe(true)
+      });
+      it("has values in localStorage", () => {
+        expect(localStorage.getItem(USER)).toBe(userName);
+        expect(localStorage.getItem(AUTH_TOKEN)).toBe(tokenValue);
+      });
+    });
   });
 });

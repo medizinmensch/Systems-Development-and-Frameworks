@@ -1,10 +1,6 @@
-//shows login label
-//has two buttons
-//has input fields
-
-
 import {mount} from "@vue/test-utils";
 import loginForm from "../src/components/loginForm.vue";
+import "babel-polyfill"
 
 describe('loginForm.vue', () => {
     let wrapper = mount(loginForm);
