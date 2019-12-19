@@ -1,6 +1,5 @@
 import {mount} from '@vue/test-utils';
 import todo from '../src/components/todo.vue';
-const uuidv1 = require('uuid/v1');
 import "babel-polyfill"
 
 const testUserName = "testUser";
