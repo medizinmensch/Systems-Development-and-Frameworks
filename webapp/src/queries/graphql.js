@@ -10,18 +10,6 @@ export const LOGIN = gql`
 `;
 
 export const ALL_TODOS_QUERY = gql`
-    query todosQuery {
-        todos {
-            id
-            text
-            user {
-                name
-            }
-        }
-    }
-`;
-
-export const ALL_TODOS_QUERY_PAGINATED = gql`
     query todosQueryPaginated($size: Int, $page: Int) {
         todos(size: $size, page: $page) {
             id

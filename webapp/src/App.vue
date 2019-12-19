@@ -15,7 +15,7 @@
 <script>
     import todoList from "./components/todoList.vue";
     import loginForm from "./components/loginForm.vue";
-    import {ALL_TODOS_QUERY, ALL_TODOS_QUERY_PAGINATED} from "./queries/graphql.js";
+    import {ALL_TODOS_QUERY} from "./queries/graphql.js";
     import {USER, AUTH_TOKEN} from "./constants/settings";
 
     export default {
@@ -39,7 +39,7 @@
                 this.todos = [];
                 this.$apollo
                     .query({
-                        query: ALL_TODOS_QUERY_PAGINATED,
+                        query: ALL_TODOS_QUERY,
                         variables: {
                             size: this.pageSize,
                             page: 0
@@ -61,7 +61,7 @@
             },
             changePageApp: function (newPage) {
                 this.$apollo.query({
-                    query: ALL_TODOS_QUERY_PAGINATED,
+                    query: ALL_TODOS_QUERY,
                     variables: {
                         page: newPage,
                         size: this.pageSize
