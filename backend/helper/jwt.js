@@ -1,6 +1,8 @@
 const jwt = require('jsonwebtoken');
+const dotenv = require("dotenv");
 
-const ourSecret = "secret secret";
+dotenv.config();
+const ourSecret = process.env.JWT_SECRET;
 
 function verifyToken(authHeader) {
     if (authHeader != null) {

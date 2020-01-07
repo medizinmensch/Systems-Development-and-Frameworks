@@ -18,13 +18,14 @@
         </div>
       </div>
     </form>
-    <button class="btn btn-primary" @click="login">Submit</button>
+    <button id="loginButton" class="btn btn-primary" @click="login">Login</button>
+    <button id="logoutButton" class="btn btn-primary" @click="logout">Logout</button>
   </div>
 </template>
 
 <script>
 import { LOGIN } from "../queries/graphql.js";
-import { AUTH_TOKEN } from "../constants/settings.js";
+import { AUTH_TOKEN, USER } from "../constants/settings.js";
 
 export default {
   name: "loginForm",
@@ -47,8 +48,18 @@ export default {
           }
         })
         .then((data) => {
-          localStorage.setItem(AUTH_TOKEN, data.data.login);
-        })
+          localStorage.setItem(AUTH_TOKEN, data.data.login.token);
+          localStorage.setItem(USER, data.data.login.user);
+          this.$emit("successfulLogin")
+        }).catch(error => {
+          alert(error);
+      });
+    },
+    logout: function () {
+      localStorage.removeItem(AUTH_TOKEN);
+      localStorage.removeItem(USER);
+      this.$emit("successfulLogout")
+
     }
   }
 };

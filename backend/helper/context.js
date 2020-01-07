@@ -1,36 +1,33 @@
-const {AuthenticationError} = require("apollo-server-errors");
+const { AuthenticationError } = require("apollo-server-errors");
+const {getDriver} = require('../neo4j/neo4j.js');
 
-const {verifyToken} = require('./jwt.js');
-const users = require('../users.js');
+const { verifyToken } = require('./jwt.js');
+const users = require('../neo4j/users.js');
 
 function getContext(req) {
+    const driver = getDriver();
     // add user
+    if (!req) return { driver };
     const authHeader = req.get('Authorization');
-    if (typeof authHeader == "undefined") return;
+    if (!authHeader) return { driver };
     const token = authHeader.replace('Bearer ', '');
-    if (token == null) return;
+    if (!token) return { driver };
+
     const currentUser = verifyToken(token);
     const user = findUserFromToken(currentUser, token);
-
-    // todo add neo4j driver
+    if (typeof user === null) return { driver };
 
     return {
-        user
+        user,
+        driver
     }
-
-
 }
 
 function findUserFromToken(req_user, token) {
-    let foundUser;
-    users.forEach(user => {
-        if (user.email === req_user.email) {
-            user.token = token;
-            foundUser = user
-        }
-    });
-    if (typeof foundUser === "undefined") throw new AuthenticationError('User provided in JWT not found.');
-    console.log("INFO - '" + foundUser.name + "' successfully requested.");
+    // todo use query from db
+    const foundUser = users.find(user => user.email === req_user.email);
+    if (typeof foundUser === "undefined") return null;
+    foundUser.token = token;
     return foundUser
 }
 

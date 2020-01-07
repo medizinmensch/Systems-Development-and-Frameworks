@@ -1,8 +1,8 @@
-const items = [
-    { id: "0", editMode: false, text: "Take out the trash" },
-    { id: "1", editMode: false, text: "Get A+ in SDF" },
-    { id: "2", editMode: false, text: "Trashtalk the vue 'Getting started' guide" },
-    { id: "3", editMode: false, text: "git commit -m 'this'" }
+const todos = [
+    { id: "0", text: "Take out the trash", user: "admin"},
+    { id: "1", text: "Get A+ in SDF", user: "admin"},
+    { id: "2", text: "Trashtalk the vue 'Getting started' guide", user: "admin"},
+    { id: "3", text: "git commit -m 'this'", user: "admin"}
 ];
 
-module.exports = items;
+module.exports = todos;
