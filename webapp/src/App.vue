@@ -15,7 +15,7 @@
 <script>
     import list from "./components/list.vue";
     import loginForm from "./components/loginForm.vue";
-    import {ALL_TODOS_QUERY, ALL_TODOS_QUERY_PAGINATED} from "./queries/graphql.js";
+    import {ALL_TODOS_QUERY} from "./queries/graphql.js";
     import {USER, AUTH_TOKEN} from "./constants/settings";
 
     export default {
