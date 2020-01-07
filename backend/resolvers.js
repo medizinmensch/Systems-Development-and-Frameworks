@@ -66,42 +66,29 @@ const resolvers = {
         createTodo: async (parent, args, context) => {
             const currentUser = context.user.name;
             console.log(`INFO - Got 'CREATE_TODO' from user ‘${currentUser}'`);
+
             const session = context.driver.session();
-            const todo = {
-                id: uuidv1(),
-                text: args.text
-            };
+            let query;
+
             try {
-                await session.run(
-                    'CREATE (t:Todo {id: $id, text: $text, createdBy: $createdBy, createdAt: $createdAt})',
+                query = await session.run(
+                    'MATCH (u:User) WHERE u.name = $user_name \n' +
+                    'CREATE (t:Todo {id: $id, text: $text, createdBy: $user_name, createdAt: $createdAt})-[r:BELONGS]->(u) \n' +
+                    'RETURN t, u',
                     {
-                        id: todo.id,
-                        text: todo.text,
-                        createdAt: getCurrentDate(),
-                        createdBy: currentUser
+                        id: uuidv1(),
+                        text: args.text,
+                        user_name: context.user.name,
+                        createdAt: getCurrentDate()
                     }
                 );
             } finally {
                 session.close()
             }
-            //create relationship
-            const session2 = context.driver.session();
-            let rel_query = '';
-            try {
-                rel_query = await session2.run(
-                    'MATCH (u:User), (t:Todo) \n' +
-                    'WHERE u.name = $user_name AND t.id = $todo_id \n' +
-                    'CREATE (t)-[r:BELONGS]->(u)\n' +
-                    'RETURN u, type(r), t.id',
-                    {
-                        user_name: context.user.name,
-                        todo_id: todo.id
-                    }
-                );
-            } finally {
-                session2.close()
-            }
-            todo.user = rel_query.records[0].get('u').properties;
+
+            const todo = query.records[0].get('t').properties
+            todo.user = query.records[0].get('u').properties;
+
             return todo
         },
         updateTodo: async (parent, args, context) => {
