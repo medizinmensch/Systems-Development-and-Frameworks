@@ -3,6 +3,7 @@ const {createTestClient} = require('apollo-server-testing');
 const {getTestApolloServer} = require('../server.js');
 const dotenv = require("dotenv");
 const {verifyToken} = require('../helper/jwt.js');
+require('babel-polyfill');
 
 let testServer = getTestApolloServer();
 let testClient = createTestClient(testServer);
