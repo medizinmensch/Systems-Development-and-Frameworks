@@ -15,7 +15,7 @@ async function createTestUser() {
     console.log(`Creating test data. ${users.length} User's will be created.`);
     for (let i = 0; i<users.length; i++) {
         const session = driver.session();
-        const [user] =  users;
+        const user = users[i];
         const userQuery = await session.run(
             'CREATE (a:User {id: $id, email: $email, password: $password, name: $name, token: ""}) RETURN a',
             {...user}
