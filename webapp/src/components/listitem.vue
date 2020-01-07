@@ -2,34 +2,39 @@
     <div class="row mx-lg-n5 jest-list-item">
         <div class="col-2 py-3 border bg-light">
             <button
-                    @click="$emit('toggleEditMode', entry.id)"
+                    @click="$emit('toggleEditMode', todo)"
                     class="btn btn-primary"
                     id="buttonEdit"
                     name="edit-button"
                     type="button"
-                    v-if="!entry.editMode"
+                    v-if="!todo.editMode"
             >Edit
             </button>
             <button
-                    @click="$emit('toggleEditMode', entry.id)"
+                    @click="$emit('toggleEditMode', todo)"
                     class="btn btn-success"
                     id="buttonSave"
                     name="save-button"
                     type="button"
-                    v-if="entry.editMode"
+                    v-if="todo.editMode"
             >Save
             </button>
-            <!-- <button v-bind:disabled="entry.visible" type="button" id="buttonSave" @click="save">Save</button> -->
+            <!-- <button v-bind:disabled="todo.visible" type="button" id="buttonSave" @click="save">Save</button> -->
         </div>
         <div class="col py-3 border bg-light">
             <form class="text">
-                <p id="text" v-if="!entry.editMode">{{ entry.text }}</p>
-                <input name="newText" type="text" v-if="entry.editMode" v-model="entry.text"/>
+                <p id="todoText" v-if="!todo.editMode">{{ todo.text }}</p>
+                <input id="todoTextEdited" type="text" v-if="todo.editMode" v-model="todo.text"/>
+            </form>
+        </div>
+        <div class="col-2 py-3 border bg-light">
+            <form class="text">
+                <p id="username" >{{ todo.user.name }}</p>
             </form>
         </div>
         <div class="col-2 py-3 border bg-light">
             <button
-                    @click="$emit('deleteEntry', entry.id)"
+                    @click="$emit('deleteTodo', todo.id)"
                     class="btn btn-danger"
                     id="buttonDelete"
                     name="delete-button"
@@ -42,10 +47,10 @@
 
 <script>
     export default {
-        name: "item",
+        name: "todo",
         props: {
-            entry: Object,
-            deleteEntry: Function
+            todo: Object,
+            deleteTodo: Function
         },
         data: function () {
             return {counter: 0};
