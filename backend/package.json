@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/cli": "^7.7.4",
+    "@babel/plugin-transform-runtime": "^7.7.6",
     "@babel/preset-env": "^7.7.4",
     "apollo-server": "^2.9.9",
     "apollo-server-errors": "^2.3.4",
@@ -31,7 +32,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
-    "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.9.0",
     "babel-loader": "^6.0.0",
     "babel-preset-env": "^1.6.1",
