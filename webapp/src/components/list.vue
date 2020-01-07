@@ -16,10 +16,10 @@
                     </div>
                     <div class="col py-3 border bg-light">
                         <label size="8" class="infoLabel">Pagination:</label>
-                        <button id="previousPageButton" class="btn btn-success" type="button" @click="previousPage"><<
+                        <button id="previousPageButton" class="btn btn-success" type="button" @click="previousPage">prev
                         </button>
-                        <label id="pageField" size="4" v-model="page">{{page}}</label>
-                        <button id="nextPageButton" class="btn btn-success" type="button" @click="nextPage">>></button>
+                        <label id="pageField" size="4">{{page}}</label>
+                        <button id="nextPageButton" class="btn btn-success" type="button" @click="nextPage">next</button>
                     </div>
                 </div>
             </div>
@@ -29,7 +29,7 @@
 
 <script>
     import listitem from "./listitem.vue";
-    import {ALL_TODOS_QUERY_PAGINATED, DELETE_TODO, CREATE_TODO, UPDATE_TODO} from "../queries/graphql.js";
+    import {DELETE_TODO, CREATE_TODO, UPDATE_TODO} from "../queries/graphql.js";
     import {USER} from "../constants/settings";
 
     export default {

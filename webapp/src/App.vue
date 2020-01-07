@@ -39,7 +39,7 @@
                 this.todos = [];
                 this.$apollo
                     .query({
-                        query: ALL_TODOS_QUERY_PAGINATED,
+                        query: ALL_TODOS_QUERY,
                         variables: {
                             size: this.pageSize,
                             page: 0
@@ -61,7 +61,7 @@
             },
             changePageApp: function (newPage) {
                 this.$apollo.query({
-                    query: ALL_TODOS_QUERY_PAGINATED,
+                    query: ALL_TODOS_QUERY,
                     variables: {
                         page: newPage,
                         size: this.pageSize
