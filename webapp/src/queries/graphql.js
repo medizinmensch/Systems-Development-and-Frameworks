@@ -41,6 +41,11 @@ export const UPDATE_TODO = gql`
         updateTodo(id: $id, text: $text){
             id
             text
+            createdAt
+            modifiedAt
+            user {
+                name
+            }
         }
     }
 `;

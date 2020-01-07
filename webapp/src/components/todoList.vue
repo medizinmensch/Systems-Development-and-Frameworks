@@ -36,7 +36,8 @@
                         <button id="previousPageButton" class="btn btn-success" type="button" @click="previousPage">prev
                         </button>
                         <label id="pageField" size="4">{{page}}</label>
-                        <button id="nextPageButton" class="btn btn-success" type="button" @click="nextPage">next</button>
+                        <button id="nextPageButton" class="btn btn-success" type="button" @click="nextPage">next
+                        </button>
                     </div>
                 </div>
             </div>
@@ -101,9 +102,15 @@
                                 text: entry.text
                             }
                         })
-                        .then(() => {
-                            console.log("updated todo.");
-                        })
+                        .then((response) => {
+                                const item = response.data.updateTodo;
+                                this.todos.forEach(i => {
+                                    if (i.id === item.id) {
+                                        i.modifiedAt = item.modifiedAt;
+                                    }
+                                });
+                            }
+                        )
                         .catch(error => {
                             console.error(error);
                         });
@@ -118,14 +125,16 @@
                     this.page -= 1;
                     this.$emit('changePage', this.page);
                 }
-
-            },
+            }
+            ,
             nextPage: function () {
                 this.page += 1;
                 this.$emit('changePage', this.page)
-            },
+            }
+            ,
         }
-    };
+    }
+    ;
 </script>
 
 <style scoped>
@@ -133,9 +142,11 @@
         margin-right: 30px;
         margin-left: 30px;
     }
+
     .infoLabel {
         margin-left: 30px;
     }
+
     #listHeader {
         font-size: 120%;
         margin: auto
