@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <h1>Frontend-Einkaufslisten-Bearbeitungs-Und-Erstellungsmaschine</h1>
+        <h1>Playlist of the decade!!! 💥 💥 💥</h1>
         <hr/>
         <loginForm @successfulLogin="successfulLogin" @successfulLogout="successfulLogout"></loginForm>
         <!-- <hr>
@@ -8,38 +8,38 @@
         <hr/>
         <h5>{{ infoMessage }}</h5>
         <hr/>
-        <todoList @changePage="changePageApp" :todos="todos" v-if="loggedIn"/>
+        <songList @changePage="changePageApp" :songs="songs" v-if="loggedIn"/>
     </div>
 </template>
 
 <script>
-    import todoList from "./components/todoList.vue";
+    import songList from "./components/songList.vue";
     import loginForm from "./components/loginForm.vue";
-    import {ALL_TODOS_QUERY} from "./queries/graphql.js";
+    import {ALL_SONGS_QUERY} from "./queries/graphql.js";
     import {USER, AUTH_TOKEN} from "./constants/settings";
 
     export default {
         name: "app",
         data: function () {
             return {
-                todos: [],
+                songs: [],
                 loggedIn: false,
                 infoMessage: "You are not logged in.",
                 pageSize: 5
             }
         },
         components: {
-            todoList,
+            songList,
             loginForm
         },
         methods: {
             successfulLogin: function () {
                 this.loggedIn = true;
                 this.infoMessage = `You are logged in as '${localStorage.getItem(USER)}'`;
-                this.todos = [];
+                this.songs = [];
                 this.$apollo
                     .query({
-                        query: ALL_TODOS_QUERY,
+                        query: ALL_SONGS_QUERY,
                         variables: {
                             size: this.pageSize,
                             page: 0
@@ -47,9 +47,9 @@
 
                     })
                     .then(data => {
-                        let tmp = data.data.todos;
-                        tmp.forEach(todo => todo.editMode = false);
-                        this.todos = tmp
+                        let tmp = data.data.songs;
+                        tmp.forEach(song => song.editMode = false);
+                        this.songs = tmp
                     })
                     .catch(error => {
                         console.error(error);
@@ -61,15 +61,15 @@
             },
             changePageApp: function (newPage) {
                 this.$apollo.query({
-                    query: ALL_TODOS_QUERY,
+                    query: ALL_SONGS_QUERY,
                     variables: {
                         page: newPage,
                         size: this.pageSize
                     }
                 }).then((data) => {
-                    let tmp = data.data.todos;
-                    tmp.forEach(todo => todo.editMode = false);
-                    this.todos = tmp
+                    let tmp = data.data.songs;
+                    tmp.forEach(song => song.editMode = false);
+                    this.songs = tmp
                 });
             },
         },

@@ -9,11 +9,11 @@ export const LOGIN = gql`
     }
 `;
 
-export const ALL_TODOS_QUERY = gql`
-    query todosQueryPaginated($size: Int, $page: Int) {
-        todos(size: $size, page: $page) {
+export const ALL_SONGS_QUERY = gql`
+    query songsQueryPaginated($size: Int, $page: Int) {
+        songs(size: $size, page: $page) {
             id
-            text
+            name
             createdAt
             modifiedAt
             user {
@@ -23,11 +23,11 @@ export const ALL_TODOS_QUERY = gql`
     }
 `;
 
-export const CREATE_TODO = gql`
-    mutation createTodo($text: String!) {
-        createTodo(text: $text) {
+export const CREATE_SONG = gql`
+    mutation createSong($name: String!) {
+        createSong(name: $name) {
             id
-            text
+            name
             createdAt
             user {
                 name
@@ -36,11 +36,11 @@ export const CREATE_TODO = gql`
     }
 `;
 
-export const UPDATE_TODO = gql`
-    mutation updateTodo($id: String!, $text: String!){
-        updateTodo(id: $id, text: $text){
+export const UPDATE_SONG = gql`
+    mutation updateSong($id: String!, $name: String!){
+        updateSong(id: $id, name: $name){
             id
-            text
+            name
             createdAt
             modifiedAt
             user {
@@ -50,8 +50,8 @@ export const UPDATE_TODO = gql`
     }
 `;
 
-export const DELETE_TODO = gql`
-    mutation DeleteTodo($id: String!) {
-        deleteTodo(id: $id)
+export const DELETE_SONG = gql`
+    mutation DeleteSong($id: String!) {
+        deleteSong(id: $id)
     }
 `;

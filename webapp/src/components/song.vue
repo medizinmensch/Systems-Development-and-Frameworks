@@ -1,49 +1,49 @@
 <template>
     <div class="row mx-lg-n5 jest-list-item">
-        <div id="todoTextDiv" class="col py-md-3 border bg-light">
+        <div class="col py-md-3 border bg-light" id="songTextDiv">
             <form class="text">
-                <p id="todoText" v-if="!todo.editMode">{{ todo.text }}</p>
-                <input id="todoTextEdited" type="text" v-if="todo.editMode" v-model="todo.text"/>
+                <p id="songText" v-if="!song.editMode">{{ song.name }}</p>
+                <input id="songTextEdited" type="text" v-if="song.editMode" v-model="song.name"/>
             </form>
         </div>
-        <div id="belongingDiv" class="col-2 py-md-3 border bg-light">
+        <div class="col-2 py-md-3 border bg-light" id="belongingDiv">
             <form class="text">
-                <p id="username" >{{ todo.user.name }}</p>
+                <p id="username">{{ song.user.name }}</p>
             </form>
         </div>
-        <div id="createdAtDiv" class="col-2 py-md-3 border bg-light">
+        <div class="col-2 py-md-3 border bg-light" id="createdAtDiv">
             <form class="text">
-                <p id="createdAt" >{{ todo.createdAt }}</p>
+                <p id="createdAt">{{ song.createdAt }}</p>
             </form>
         </div>
-        <div id="modifiedAtDiv" class="col-2 py-md-3 border bg-light">
+        <div class="col-2 py-md-3 border bg-light" id="modifiedAtDiv">
             <form class="text">
-                <p id="modifiedAt" >{{ todo.modifiedAt }}</p>
+                <p id="modifiedAt">{{ song.modifiedAt }}</p>
             </form>
         </div>
-        <div id="editSaveButtonDiv" class="col-1 py-md-3 border bg-light">
+        <div class="col-1 py-md-3 border bg-light" id="editSaveButtonDiv">
             <button
-                    @click="$emit('toggleEditMode', todo)"
+                    @click="$emit('toggleEditMode', song)"
                     class="btn btn-primary"
                     id="buttonEdit"
                     name="edit-button"
                     type="button"
-                    v-if="!todo.editMode"
+                    v-if="!song.editMode"
             >Edit
             </button>
             <button
-                    @click="$emit('toggleEditMode', todo)"
+                    @click="$emit('toggleEditMode', song)"
                     class="btn btn-success"
                     id="buttonSave"
                     name="save-button"
                     type="button"
-                    v-if="todo.editMode"
+                    v-if="song.editMode"
             >Save
             </button>
         </div>
-        <div id="deleteButtonDiv" class="col-1 py-md-3 border bg-light">
+        <div class="col-1 py-md-3 border bg-light" id="deleteButtonDiv">
             <button
-                    @click="$emit('deleteTodo', todo.id)"
+                    @click="$emit('deleteSong', song.id)"
                     class="btn btn-danger"
                     id="buttonDelete"
                     name="delete-button"
@@ -56,10 +56,10 @@
 
 <script>
     export default {
-        name: "todo",
+        name: "song",
         props: {
-            todo: Object,
-            deleteTodo: Function
+            song: Object,
+            deleteSong: Function
         },
         data: function () {
             return {counter: 0};
@@ -71,6 +71,7 @@
     .text {
         text-align: left;
     }
+
     .btn-danger {
         margin: auto;
     }

@@ -3,14 +3,14 @@ const uuidv1 = require('uuid/v1');
 const users = require('../neo4j/users.js');
 const {getCurrentDate} = require('./context.js');
 
-const exampleTodoTexts = ["Take out the trash", "Get A+ in SDAF", "git commit -m 'this'", "git diff --cached or --staged?", "learn cypher query language", "make frontend pretty"];
+const exampleSongNames = ["Atemlos durch die Nacht", "Alright", "Stop", "Kein Liebeslied", "Grosstadtwüste", "Schüsse in die Luft"];
 const exampleUsers = [];
 users.forEach(user => {
     exampleUsers.push(user.name);
 });
 
 const driver = getDriver();
-const amountOfTodos = 15;
+const amountOfSongs = 15;
 const createdAt = getCurrentDate();
 const createdBy = "init";
 
@@ -28,34 +28,34 @@ async function createTestUser() {
     }
 }
 
-async function createTestTodos(amount) {
-    await console.log(`Creating test data. ${amount} Todo's will be created.`);
+async function createTestSongs(amount) {
+    await console.log(`Creating test data. ${amount} Songs's will be created.`);
     for (let i = 0; i<amount; i++) {
         let session = await driver.session();
-        const exampleText = exampleTodoTexts[Math.floor(Math.random()*(exampleTodoTexts.length))];
+        const exampleName = exampleSongNames[Math.floor(Math.random()*(exampleSongNames.length))];
         const randomUser = exampleUsers[Math.floor(Math.random()*(exampleUsers.length))];
-        const todoId = uuidv1();
-        const todoQuery = await session.run(
-            'CREATE (a:Todo {id: $id, text: $text, createdBy: $createdBy, createdAt: $createdAt}) RETURN a',
+        const songId = uuidv1();
+        const songQuery = await session.run(
+            'CREATE (a:Song {id: $id, name: $name, createdBy: $createdBy, createdAt: $createdAt}) RETURN a',
             {
-                id: todoId,
-                text: exampleText,
+                id: songId,
+                name: exampleName,
                 createdAt: createdAt,
                 createdBy: createdBy
             }
         );
-        await console.log("Created Todo: " + todoQuery.records[0].get(0));
+        await console.log("Created Song: " + songQuery.records[0].get(0));
         await session.close();
 
         session = await driver.session();
         const relQuery = await session.run(
-            'MATCH (u:User), (t:Todo) \n' +
-            'WHERE u.name = $user_name AND t.id = $todo_id \n' +
-            'CREATE (t)-[r:BELONGS]->(u)\n' +
-            'RETURN u.name, type(r), t.id',
+            'MATCH (u:User), (s:Song) \n' +
+            'WHERE u.name = $user_name AND s.id = $song_id \n' +
+            'CREATE (s)-[r:BELONGS]->(u)\n' +
+            'RETURN u.name, type(r), s.id',
             {
                 user_name: randomUser,
-                todo_id: todoId
+                song_id: songId
             }
         );
         console.log("Created Relationship between: " + relQuery.records[0].get(0));
@@ -66,7 +66,7 @@ async function createTestTodos(amount) {
 (async function() {
     try {
         await createTestUser();
-        await createTestTodos(amountOfTodos);
+        await createTestSongs(amountOfSongs);
         console.log("INFO - Finished seeding database.");
         driver.close();
         process.exit(0)

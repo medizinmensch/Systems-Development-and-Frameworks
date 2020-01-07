@@ -1,42 +1,42 @@
 <template>
-    <div id="todoList">
+    <div id="songList">
         <div class="container px-lg-5">
-            <div id="listHeader" class="row mx-lg-n5 jest-list-item">
-                <div id="todoTextHeaderDiv" class="col py-md-3 border bg-light">
-                    <p>Todo</p>
+            <div class="row mx-lg-n5 jest-list-item" id="listHeader">
+                <div class="col py-md-3 border bg-light" id="songTextHeaderDiv">
+                    <p>Song</p>
                 </div>
-                <div id="belongingHeaderDiv" class="col-2 py-md-3 border bg-light">
+                <div class="col-2 py-md-3 border bg-light" id="belongingHeaderDiv">
                     <p>belongsTo</p>
                 </div>
-                <div id="createdAtHeaderDiv" class="col-2 py-md-3 border bg-light">
+                <div class="col-2 py-md-3 border bg-light" id="createdAtHeaderDiv">
                     <p>createdAt</p>
                 </div>
-                <div id="modifiedAtHeaderDiv" class="col-2 py-md-3 border bg-light">
+                <div class="col-2 py-md-3 border bg-light" id="modifiedAtHeaderDiv">
                     <p>modifiedAt</p>
                 </div>
-                <div id="buttonsHeaderDiv" class="col-2 py-md-3 border bg-light">
+                <div class="col-2 py-md-3 border bg-light" id="buttonsHeaderDiv">
                     <p></p>
                 </div>
             </div>
-            <todo
-                    @deleteTodo="deleteTodo"
+            <song
+                    :key="song.id"
+                    :song="song"
+                    @deleteSong="deleteSong"
                     @toggleEditMode="toggleEditMode"
-                    v-for="todo in todos"
-                    :todo="todo"
-                    :key="todo.id"
-            ></todo>
+                    v-for="song in songs"
+            ></song>
             <div>
                 <div class="row mx-lg-n5 jest-list-item">
                     <div class="col py-3 border bg-light">
-                        <label size="6" class="infoLabel">Add ToDo:</label>
-                        <button id="buttonAdd" class="btn btn-success" type="button" @click="createTodo">Add</button>
+                        <label class="infoLabel" size="6">Add ToDo:</label>
+                        <button @click="createSong" class="btn btn-success" id="buttonAdd" type="button">Add</button>
                     </div>
                     <div class="col py-3 border bg-light">
-                        <label size="8" class="infoLabel">Pagination:</label>
-                        <button id="previousPageButton" class="btn btn-success" type="button" @click="previousPage">prev
+                        <label class="infoLabel" size="8">Pagination:</label>
+                        <button @click="previousPage" class="btn btn-success" id="previousPageButton" type="button">prev
                         </button>
                         <label id="pageField" size="4">{{page}}</label>
-                        <button id="nextPageButton" class="btn btn-success" type="button" @click="nextPage">next
+                        <button @click="nextPage" class="btn btn-success" id="nextPageButton" type="button">next
                         </button>
                     </div>
                 </div>
@@ -46,46 +46,46 @@
 </template>
 
 <script>
-    import todo from "./todo.vue";
-    import {DELETE_TODO, CREATE_TODO, UPDATE_TODO} from "../queries/graphql.js";
+    import song from "./song.vue";
+    import {CREATE_SONG, DELETE_SONG, UPDATE_SONG} from "../queries/graphql.js";
     import {USER} from "../constants/settings";
 
     export default {
-        name: "todoList",
+        name: "songList",
         data: function () {
             return {
                 page: 0,
             }
         },
         props: {
-            todos: Array,
+            songs: Array,
         },
         components: {
-            todo
+            song
         },
         methods: {
-            createTodo() {
+            createSong() {
                 this.$apollo
                     .mutate({
-                        mutation: CREATE_TODO,
+                        mutation: CREATE_SONG,
                         variables: {
-                            text: "More things todo...",
+                            name: "Another one bites the dust",
                             user: localStorage.getItem(USER)
                         }
                     })
                     .then(data => {
-                        let item = data.data.createTodo;
+                        let item = data.data.createSong;
                         item.editMode = false;
-                        this.todos.push(item);
+                        this.songs.push(item);
                     })
                     .catch(error => {
                         console.error(error);
                     });
             },
-            deleteTodo(id) {
+            deleteSong(id) {
                 this.items = this.items.filter(x => x.id !== id);
                 this.$apollo.mutate({
-                    mutation: DELETE_TODO,
+                    mutation: DELETE_SONG,
                     variables: {
                         id: id
                     }
@@ -95,15 +95,15 @@
                 if (entry.editMode) {
                     this.$apollo
                         .mutate({
-                            mutation: UPDATE_TODO,
+                            mutation: UPDATE_SONG,
                             variables: {
                                 id: entry.id,
-                                text: entry.text
+                                name: entry.name
                             }
                         })
                         .then((response) => {
-                                const item = response.data.updateTodo;
-                                this.todos.forEach(i => {
+                                const item = response.data.updateSong;
+                                this.songs.forEach(i => {
                                     if (i.id === item.id) {
                                         i.modifiedAt = item.modifiedAt;
                                     }
@@ -115,7 +115,7 @@
                         });
                 }
 
-                this.todos.forEach(i => {
+                this.songs.forEach(i => {
                     if (i.id === entry.id) i.editMode = !i.editMode;
                 });
             },

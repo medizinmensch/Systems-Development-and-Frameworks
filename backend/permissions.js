@@ -7,15 +7,15 @@ const isAuthenticated = rule()(
 
 const permissions = shield({
     Query: {
-        todos: isAuthenticated
+        songs: isAuthenticated
     },
     Mutation: {
-        createTodo: isAuthenticated,
-        updateTodo: isAuthenticated,
-        deleteTodo: isAuthenticated,
+        createSong: isAuthenticated,
+        updateSong: isAuthenticated,
+        deleteSong: isAuthenticated,
         login: allow
     },
-    Todo: isAuthenticated,
+    Song: isAuthenticated,
     User: isAuthenticated
     }
 

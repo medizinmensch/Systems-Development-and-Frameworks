@@ -7,7 +7,7 @@ const title = "Frontend-Einkaufslisten-Bearbeitungs-Und-Erstellungsmaschine";
 const notLoggedInInfo = "You are not logged in.";
 const loggedInInfo = "You are logged in";
 const loginFormDivName = "loginForm";
-const todoListDivName = "todoList";
+const songListDivName = "songList";
 
 describe('App.vue', () => {
   let wrapper = mount(app);
@@ -25,8 +25,8 @@ describe('App.vue', () => {
       expect(wrapper.text()).toContain(title);
       expect(wrapper.text()).toContain(notLoggedInInfo)
     });
-    it('does not show todo list', () =>{
-      expect(wrapper.contains({name: todoListDivName})).toBe(false)
+    it('does not show song list', () =>{
+      expect(wrapper.contains({name: songListDivName})).toBe(false)
     });
 
     it('has no local storage attributes', () =>{
@@ -39,7 +39,7 @@ describe('App.vue', () => {
       const userName = "testuser";
       beforeEach(async () => {
         const mocks = {$apollo: {
-          query: jest.fn().mockResolvedValue({data: {todos: []}}),
+          query: jest.fn().mockResolvedValue({data: {songs: []}}),
           mutate: jest.fn().mockResolvedValue({data: {login: {token: tokenValue, user: userName}}})
         }};
         wrapper = mount(app, {mocks});
@@ -57,8 +57,8 @@ describe('App.vue', () => {
       it("attempts to call an apollo query", () => {
         expect(wrapper.vm.$apollo.query).toBeCalled()
       });
-      it("shows todoList", () => {
-        expect(wrapper.contains('#todoList')).toBe(true)
+      it("shows songList", () => {
+        expect(wrapper.contains('#songList')).toBe(true)
       });
       it("has values in localStorage", () => {
         expect(localStorage.getItem(USER)).toBe(userName);
