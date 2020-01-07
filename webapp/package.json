@@ -5,10 +5,10 @@
   "author": "Youri Seichter <yseichter@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "./node_modules/.bin/cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "build": "./node_modules/.bin/cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "test": "./node_modules/.bin/jest",
-    "lint": "./node_modules/.bin/eslint . \"**/*.vue\""
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "test": "jest",
+    "lint": "eslint . \"**/*.vue\""
   },
   "dependencies": {
     "@babel/cli": "^7.7.5",

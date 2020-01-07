@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --forceExit",
     "dev": "node start_backend.js",
-    "lint": "./node_modules/.bin/eslint \"**/*.js\"",
+    "lint": "eslint \"**/*.js\"",
     "db:seed": "node ./helper/seed_db.js"
   },
   "author": "",
