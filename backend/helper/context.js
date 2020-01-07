@@ -7,14 +7,15 @@ const users = require('../neo4j/users.js');
 function getContext(req) {
     const driver = getDriver();
 
-    if (typeof req == "undefined" ) return { driver };
+    if (!req) return { driver };
     const authHeader = req.get('Authorization');
-    if (typeof authHeader == "undefined" || authHeader === "") return { driver };
+    if (!authHeader) return { driver };
     const token = authHeader.replace('Bearer ', '');
-    if (token == null) return { driver };
+    if (!token) return { driver };
 
     const currentUser = verifyToken(token);
     const user = findUserFromToken(currentUser, token);
+    if (typeof user === null) return { driver };
 
     return {
         user,
@@ -23,15 +24,10 @@ function getContext(req) {
 }
 
 function findUserFromToken(req_user, token) {
-    let foundUser;
     // todo use query from db
-    users.forEach(user => {
-        if (user.email === req_user.email) {
-            user.token = token;
-            foundUser = user
-        }
-    });
-    if (typeof foundUser === "undefined") throw new AuthenticationError('User provided in JWT not found.');
+    const foundUser = users.find(user => user.email === req_user.email);
+    if (typeof foundUser === "undefined") return null;
+    foundUser.token = token;
     return foundUser
 }
 

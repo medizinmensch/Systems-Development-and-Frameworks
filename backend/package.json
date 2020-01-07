@@ -6,13 +6,14 @@
   "scripts": {
     "test": "jest --forceExit",
     "dev": "node start_backend.js",
-    "lint": "./node_modules/.bin/eslint \"**/*.js\"",
+    "lint": "eslint \"**/*.js\"",
     "db:seed": "node ./helper/seed_db.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@babel/cli": "^7.7.4",
+    "@babel/plugin-transform-runtime": "^7.7.6",
     "@babel/preset-env": "^7.7.4",
     "apollo-server": "^2.9.9",
     "apollo-server-errors": "^2.3.4",
@@ -26,11 +27,11 @@
     "graphql-tag": "^2.10.1",
     "jest": "^24.9.0",
     "jsonwebtoken": "^8.5.1",
-    "neo4j-driver": "^4.0.0"
+    "neo4j-driver": "^4.0.0",
+    "regenerator-runtime": "^0.13.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.4",
-    "babel-core": "^7.0.0-bridge.0",
+    "@babel/core": "^7.7.7",
     "babel-jest": "^24.9.0",
     "babel-loader": "^6.0.0",
     "babel-preset-env": "^1.6.1",
