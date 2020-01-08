@@ -52,7 +52,7 @@
 
     export default {
         name: "todoList",
-        data: function () {
+        data() {
             return {
                 page: 0,
             }
@@ -83,13 +83,13 @@
                     });
             },
             deleteTodo(id) {
-                this.items = this.items.filter(x => x.id !== id);
                 this.$apollo.mutate({
                     mutation: DELETE_TODO,
                     variables: {
                         id: id
                     }
                 });
+                this.todos = this.todos.filter(x => x.id !== id);
             },
             toggleEditMode(entry) {
                 if (entry.editMode) {
@@ -125,16 +125,13 @@
                     this.page -= 1;
                     this.$emit('changePage', this.page);
                 }
-            }
-            ,
+            },
             nextPage() {
                 this.page += 1;
                 this.$emit('changePage', this.page)
-            }
-            ,
+            },
         }
-    }
-    ;
+    };
 </script>
 
 <style scoped>
