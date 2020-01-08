@@ -52,7 +52,7 @@
 
     export default {
         name: "todoList",
-        data: function () {
+        data() {
             return {
                 page: 0,
             }
@@ -64,7 +64,7 @@
             todo
         },
         methods: {
-            createTodo: function () {
+            createTodo() {
                 this.$apollo
                     .mutate({
                         mutation: CREATE_TODO,
@@ -82,17 +82,16 @@
                         console.error(error);
                     });
             },
-            deleteTodo: function (id) {
-                const index = this.todos.findIndex(x => x.id === id);
-                this.todos.splice(index, 1);
+            deleteTodo(id) {
                 this.$apollo.mutate({
                     mutation: DELETE_TODO,
                     variables: {
                         id: id
                     }
                 });
+                this.todos = this.todos.filter(x => x.id !== id);
             },
-            toggleEditMode: function (entry) {
+            toggleEditMode(entry) {
                 if (entry.editMode) {
                     this.$apollo
                         .mutate({
@@ -120,21 +119,20 @@
                     if (i.id === entry.id) i.editMode = !i.editMode;
                 });
             },
-            previousPage: function () {
+            previousPage() {
+                //this.page = Math.max(0, this.page - 1)
                 if (this.page > 0) {
                     this.page -= 1;
                     this.$emit('changePage', this.page);
                 }
-            }
-            ,
-            nextPage: function () {
+
+            },
+            nextPage() {
                 this.page += 1;
                 this.$emit('changePage', this.page)
-            }
-            ,
+            },
         }
-    }
-    ;
+    };
 </script>
 
 <style scoped>

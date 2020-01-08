@@ -4,6 +4,7 @@ const {getTestApolloServer} = require('../server.js');
 const dotenv = require("dotenv");
 const {verifyToken} = require('../helper/jwt.js');
 require('babel-polyfill');
+require("regenerator-runtime/runtime");
 
 let testServer = getTestApolloServer();
 let testClient = createTestClient(testServer);

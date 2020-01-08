@@ -44,11 +44,12 @@
                             size: this.pageSize,
                             page: 0
                         }
-
                     })
                     .then(data => {
                         let tmp = data.data.todos;
                         tmp.forEach(todo => todo.editMode = false);
+                        console.log("inside sucessfulLogin")
+                        console.log(tmp)
                         this.todos = tmp
                     })
                     .catch(error => {

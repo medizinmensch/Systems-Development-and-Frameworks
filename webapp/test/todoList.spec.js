@@ -64,9 +64,9 @@ describe('rendering a todoList component', () => {
         describe('rerender the component', () => {
             beforeEach(() => {
                 wrapper.vm.$nextTick();
-                wrapper = mount(todoList, {mocks, propsData});
             });
             it('contains todos -1', () => {
+                console.log(wrapper.text())
                 expect(wrapper.findAll('#todoText')).toHaveLength(amountOfTodos-1)
             });
         });
