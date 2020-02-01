@@ -49,7 +49,18 @@
     * `created`: before component has been rendered, `data`and `events` are reactive
     * `beforeMount`: before initial render
     * `mounted`: access for reactive components, templates and redered DOM
-
+* What is worse: False Positives or False Negatives?
+    * laut roberts definition (siehe oben) false negatives (=test passes but there is a bug) weil du einen bug introduced mit falscher zuversicht
+* What are the pros and cons of end-to-end tests compared to unit tests?
+    * siehe oben
+* What is mutant testing?
+    * testing of software test by introducing errors (mainly used for unit tests)
+* What are non-atomic tests and what’s the problem with it?
+    * tests should be written independent from each other, otherwise they might affect each other (like one failed test causes many others fail too)
+* What is meant by “Arrange, Act, Assert”?
+    * siehe oben
+* What are the differences between REST and GraphQL? What problems does GraphQL solve compared to REST?
+    * siehe oben
 
 ## Unsicher über die Antwort
 
@@ -77,7 +88,8 @@
     * `git checkout path/to/file origin/other-branch`
 * What is a strategy to tell if a bug was introduced in your PR or if it was already present in master? Explain in details.
     * `git bisect` let's you find the exact commit the bug was introduced. You mark good and a bad commits and it's suggesting commits (doing a binary search) to check.
-
+* What do the arguments (parent, args, context, resolveInfo) in the method signature of resolvers stand for?
+    * `parent`: result of previous resolver call; `args`: arguments of the resolver field; `context`: custom object each resolver can read from/write to ; `info`: ???
 
 
 ## Kein plan / nachfragen oder so?
@@ -89,27 +101,12 @@
 * What are the git commands to reproduce the file diff of a PR on Github?
     * ??? `git diff feature...base` triple dot syntax?
 * In the W3C web component specification, what would be the equivalent to a VueJS component?
-    * 
 * How can named slots be used to remove redundancy? Can you give an example?
-    * 
-
-## TODO
-
-
-* What is meant by “Arrange, Act, Assert”?
-    * siehe oben
-
-
 * Is redundancy in software tests good or bad? Give reasons for your answer.
 * What are some counter-measures against False Positives?
 * What are some counter-measures against False Negatives?
+* Look at the following source code... When the following graphQL query is sent ... in what order are the `console.log` statements executed?
 
-* What is worse: False Positives or False Negatives?
-    * laut roberts definition (siehe oben) false negatives (=test passes but there is a bug) weil du einen bug introduced mit falscher zuversicht
 
-* What are the pros and cons of end-to-end tests compared to unit tests?
-    * siehe oben
-* What is mutant testing?
-    * testing of software test by introducing errors (mainly used for unit tests)
-* What are non-atomic tests and what’s the problem with it?
-    * tests should be written independent from each other, otherwise they might affect each other (like one failed test causes many others fail too)
+## TODO
+

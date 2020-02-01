@@ -165,3 +165,19 @@ Virtual DOM:
 * sacrifice simplicity to reduce redundancy
 * create atomic tests
 
+
+
+# GraphQL
+= schema based (REST is protocol based)
+
+PROs:
+* client can dictate exactly what it needs --> this leads to less requests 
+CONs:
+* missuses HTTP status codes: will always return status code 200 (errors are inside json), makes error handling more difficult
+* lack of build-in caching support (REST supports native HTTP caching as they have multiple endpoints)
+* higher complexity
+* newer on the marked means less supported by other companies 
+
+## Tips
+* use middlewares fur pluggable behaviour (permissions, notifications, email delivery, error tracking)
+* 
