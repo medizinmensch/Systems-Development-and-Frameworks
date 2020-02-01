@@ -34,6 +34,21 @@
     * pushing commits, raising issues, reviewing PR requests
 * What are the files to read before you start to contribute to a repo? Where to find contribution guidelines?
     * Readme, Wiki, Docs (often refered to in the Readme)
+* What are the advantages and disadvantages of client-side-rendering only versus server-side-rendering only?
+    * siehe oben
+* What is isomorphic code?
+    * Code, that could run on both server and client. This requires a coding style that is not mentioning things like `window`, `document`, `server`, `fs` (and if, it's wrapped around code that checks for client/server). Example: `console.log`
+* What is the motivation for using a virtual DOM over the browser’s DOM?
+    * It's faster as you are able to only re-render a part of your DOM
+* What are the advantages of the component pattern?
+    * Reuse (-> less development, faster), less errors, using different components for the same thing does not look good
+* What is the meaning of the phrase “Data down, Actions up”? 
+    * High level components pass data (via `props`) to low level components whereas actions/events are passed the other way around
+* Can you name three lifecycle hooks and their immediate precondition before they get called?
+    * `beforeCreate`: before component has been rendered, `data` is not yet reactive, `events` have not been set up yet
+    * `created`: before component has been rendered, `data`and `events` are reactive
+    * `beforeMount`: before initial render
+    * `mounted`: access for reactive components, templates and redered DOM
 
 
 ## Unsicher über die Antwort
@@ -73,17 +88,28 @@
     * With an interactive rebase?
 * What are the git commands to reproduce the file diff of a PR on Github?
     * ??? `git diff feature...base` triple dot syntax?
-
+* In the W3C web component specification, what would be the equivalent to a VueJS component?
+    * 
+* How can named slots be used to remove redundancy? Can you give an example?
+    * 
 
 ## TODO
 
-Next up: #VueJS seite 17-ende
 
-* What are the advantages and disadvantages of client-side-rendering only versus server-side-rendering only?
-* What is isomorphic code?
-* What is the motivation for using a virtual DOM over the browser’s DOM?
-* What are the advantages of the component pattern?
-* What is the meaning of the phrase “Data down, Actions up”? 
-* Can you name three lifecycle hooks and their immediate precondition before  they get called?
-* In the W3C web component specification, what would be the equivalent to a VueJS component?
-* How can named slots be used to remove redundancy? Can you give an example?
+* What is meant by “Arrange, Act, Assert”?
+    * siehe oben
+
+
+* Is redundancy in software tests good or bad? Give reasons for your answer.
+* What are some counter-measures against False Positives?
+* What are some counter-measures against False Negatives?
+
+* What is worse: False Positives or False Negatives?
+    * laut roberts definition (siehe oben) false negatives (=test passes but there is a bug) weil du einen bug introduced mit falscher zuversicht
+
+* What are the pros and cons of end-to-end tests compared to unit tests?
+    * siehe oben
+* What is mutant testing?
+    * testing of software test by introducing errors (mainly used for unit tests)
+* What are non-atomic tests and what’s the problem with it?
+    * tests should be written independent from each other, otherwise they might affect each other (like one failed test causes many others fail too)
