@@ -180,4 +180,49 @@ CONs:
 
 ## Tips
 * use middlewares fur pluggable behaviour (permissions, notifications, email delivery, error tracking)
-* 
+
+
+# Backend, Apollo, Authentication, JWT
+
+## Authentication
+
+### Classic sessions/cookies schema
+
+1. client: POST email, psw to server
+2. server: store user in server memory, generate session ID as cookie and send it to client
+3. client: save session id as cookie, for every following request, send session ID cookie
+4. server: checks whether session id aligns with in memory user, give respective response
+
+### JWT (Json Web token)
+* PRO: does not need a state on server (instead it's saved on the client) --> multiple servers can verify users without syncing client session 
+
+1. client: POST email, psw to server
+2. server: encodes JWT with secret-key, send it to client
+3. client: save jwt (however it likes), send jwt with every request
+4. server: verify jwt and get user from jwt 
+  
+**Contains** (seperated by .)
+* Header: typically algorithm and type (like `HS256`)
+* payload: claims (like `user_id`, `iat` (issued at, time of token creation for experation, or `eat` for expired at))
+* verify signature (to verify that the user did not mess with the token by taking header and payload, combining it and encoding it via secret key)
+
+--> user/client can change header and payload, but verify signature will show the server that it was tampered with header or payload
+
+### GraphQL Shield
+> Acts as middleware 
+
+
+# JS stuff
+
+## Higher order functions and anonymous functions
+
+**Higher order functions**:
+examples in js: *map*, *reduce*, *filter*, *forEach*
+> a function, that either takes a function as an argument (then called callback function because it's called back by the higher order function) or returns a function itself
+example: 
+```JavaScript
+let doubles = [1,2,3].map(function (n) { return n * 2})
+```
+* map is a higher order function because it takes a function as an argument
+* the argument is a higher order function because it is an argument of a function
+

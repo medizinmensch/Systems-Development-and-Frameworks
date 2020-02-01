@@ -89,7 +89,7 @@
 * What is a strategy to tell if a bug was introduced in your PR or if it was already present in master? Explain in details.
     * `git bisect` let's you find the exact commit the bug was introduced. You mark good and a bad commits and it's suggesting commits (doing a binary search) to check.
 * What do the arguments (parent, args, context, resolveInfo) in the method signature of resolvers stand for?
-    * `parent`: result of previous resolver call; `args`: arguments of the resolver field; `context`: custom object each resolver can read from/write to ; `info`: ???
+    * `parent`: result of previous resolver call; `args`: arguments of the resolver field; `context`: custom object each resolver can read from/write to, decrypt JWT here; `info`: ???
 
 
 ## Kein plan / nachfragen oder so?
@@ -109,4 +109,37 @@
 
 
 ## TODO
+
+* Explain the two terms authentication and authorization and what’s the difference. JWT is used for which? Graphql-shield is used for which?
+    * **authenticated**: having identity you state
+    * **authorized**: having the priviledges (to read/write content)
+* What’s the purpose of the three parts of a JWT encoded token?
+    * siehe oben
+* Why you shouldn’t put sensitive information into a JWT token?
+    * everybody with access to it can read it as it is just base64 encoded (it's not encrypted, just envoded)
+* What are higher-order functions?
+    * siehe oben
+
+
+# Neo4J
+Graph Database
+
+
+## Cypher language
+
+
+
+
+### Read
+
+* **All:** `MATCH (n) RETURN n`
+* **Type:** `MATCH (name:type) RETURN name`
+* **Match all employees of the department with the name "IT Department"**:
+```
+MATCH (p:Person)<-[:EMPLOYEE]-(d:Department)
+WHERE d.name = "IT Department"
+RETURN p.name
+```
+
+### Write
 
