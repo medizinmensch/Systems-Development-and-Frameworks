@@ -1,6 +1,7 @@
 const {getDriver} = require('../neo4j/neo4j.js');
 const uuidv1 = require('uuid/v1');
 const users = require('../neo4j/users.js');
+const {getCurrentDate} = require('./context.js');
 
 const exampleTodoTexts = ["Take out the trash", "Get A+ in SDAF", "git commit -m 'this'", "git diff --cached or --staged?", "learn cypher query language", "make frontend pretty"];
 const exampleUsers = [];
@@ -10,6 +11,8 @@ users.forEach(user => {
 
 const driver = getDriver();
 const amountOfTodos = 15;
+const createdAt = getCurrentDate();
+const createdBy = "init";
 
 async function createTestUser() {
     console.log(`Creating test data. ${users.length} User's will be created.`);
@@ -33,10 +36,12 @@ async function createTestTodos(amount) {
         const randomUser = exampleUsers[Math.floor(Math.random()*(exampleUsers.length))];
         const todoId = uuidv1();
         const todoQuery = await session.run(
-            'CREATE (a:Todo {id: $id, text: $text}) RETURN a',
+            'CREATE (a:Todo {id: $id, text: $text, createdBy: $createdBy, createdAt: $createdAt}) RETURN a',
             {
                 id: todoId,
                 text: exampleText,
+                createdAt: createdAt,
+                createdBy: createdBy
             }
         );
         await console.log("Created Todo: " + todoQuery.records[0].get(0));

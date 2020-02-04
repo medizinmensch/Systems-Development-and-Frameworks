@@ -8,12 +8,12 @@
         <hr/>
         <h5>{{ infoMessage }}</h5>
         <hr/>
-        <list @changePage="changePageApp" :todos="todos" v-if="loggedIn"/>
+        <todoList @changePage="changePageApp" :todos="todos" v-if="loggedIn"/>
     </div>
 </template>
 
 <script>
-    import list from "./components/list.vue";
+    import todoList from "./components/todoList.vue";
     import loginForm from "./components/loginForm.vue";
     import {ALL_TODOS_QUERY} from "./queries/graphql.js";
     import {USER, AUTH_TOKEN} from "./constants/settings";
@@ -25,11 +25,11 @@
                 todos: [],
                 loggedIn: false,
                 infoMessage: "You are not logged in.",
-                pageSize: 20
+                pageSize: 5
             }
         },
         components: {
-            list,
+            todoList,
             loginForm
         },
         methods: {
@@ -44,11 +44,12 @@
                             size: this.pageSize,
                             page: 0
                         }
-
                     })
                     .then(data => {
                         let tmp = data.data.todos;
                         tmp.forEach(todo => todo.editMode = false);
+                        console.log("inside sucessfulLogin")
+                        console.log(tmp)
                         this.todos = tmp
                     })
                     .catch(error => {

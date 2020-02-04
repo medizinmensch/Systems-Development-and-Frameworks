@@ -1,5 +1,6 @@
 import {mount} from '@vue/test-utils';
-import listitem from '../src/components/listitem.vue';
+import todo from '../src/components/todo.vue';
+import "babel-polyfill"
 
 const testUserName = "testUser";
 const exampleItem = {id: "0", text: "first todo", user: {name: testUserName, id: "0"}, editMode: false};
@@ -9,7 +10,7 @@ let wrapper;
 
 describe('todo item', () => {
     beforeEach(() => {
-        wrapper = mount(listitem, {propsData});
+        wrapper = mount(todo, {propsData});
     });
     it('shows text of todo item', () => {
         expect(wrapper.contains('#todoText')).toBe(true);
@@ -36,34 +37,28 @@ describe('todo item', () => {
 
     describe('layout', () => {
         it('has rows', () => {
-            expect(wrapper.html()).toContain('<div class="row mx-lg-n5 jest-list-item">');
+            expect(wrapper.html()).toContain('class="row mx-lg-n5 jest-list-item"');
         });
         it('has columns', () => {
-            expect(wrapper.html()).toContain('<div class="col py-3 border bg-light">');
+            expect(wrapper.html()).toContain('class="col-1 py-md-3 border bg-light"');
         });
     });
 
 
     describe('when the edit button is pressed', () => {
-        beforeEach(() => {
+        beforeEach( () => {
+            wrapper = mount(todo, {propsData});
             wrapper.find('#buttonEdit').trigger('click');
-            //wrapper.vm.$emit('toggleEditMode');
-            //wrapper.vm.$nextTick();
         });
         it('emits a ToggleEditMode event', () => {
             expect(wrapper.emitted('toggleEditMode'));
         });
         // would be cool if they would work... however html does not change? maybe need to wait/update wrapper?
-        //it('shows input field', () => {
-        //    expect(wrapper.contains('#todoTextEdited')).toBe(true)
-        //});
-        //it('shows save button', () => {
-        //    expect(wrapper.contains('#buttonSave')).toBe(true)
-        //});
     });
 
     describe('when the delete button is pressed', () => {
         beforeEach(() => {
+            wrapper = mount(todo, {propsData});
             wrapper.find('#buttonDelete').trigger('click');
         });
         it('emits a DeleteEntry event', () => {

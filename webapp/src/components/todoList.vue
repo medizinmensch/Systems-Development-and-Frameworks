@@ -1,13 +1,30 @@
 <template>
     <div id="todoList">
         <div class="container px-lg-5">
-            <listitem
+            <div id="listHeader" class="row mx-lg-n5 jest-list-item">
+                <div id="todoTextHeaderDiv" class="col py-md-3 border bg-light">
+                    <p>Todo</p>
+                </div>
+                <div id="belongingHeaderDiv" class="col-2 py-md-3 border bg-light">
+                    <p>belongsTo</p>
+                </div>
+                <div id="createdAtHeaderDiv" class="col-2 py-md-3 border bg-light">
+                    <p>createdAt</p>
+                </div>
+                <div id="modifiedAtHeaderDiv" class="col-2 py-md-3 border bg-light">
+                    <p>modifiedAt</p>
+                </div>
+                <div id="buttonsHeaderDiv" class="col-2 py-md-3 border bg-light">
+                    <p></p>
+                </div>
+            </div>
+            <todo
                     @deleteTodo="deleteTodo"
                     @toggleEditMode="toggleEditMode"
                     v-for="todo in todos"
                     :todo="todo"
                     :key="todo.id"
-            ></listitem>
+            ></todo>
             <div>
                 <div class="row mx-lg-n5 jest-list-item">
                     <div class="col py-3 border bg-light">
@@ -19,7 +36,8 @@
                         <button id="previousPageButton" class="btn btn-success" type="button" @click="previousPage">prev
                         </button>
                         <label id="pageField" size="4">{{page}}</label>
-                        <button id="nextPageButton" class="btn btn-success" type="button" @click="nextPage">next</button>
+                        <button id="nextPageButton" class="btn btn-success" type="button" @click="nextPage">next
+                        </button>
                     </div>
                 </div>
             </div>
@@ -28,13 +46,13 @@
 </template>
 
 <script>
-    import listitem from "./listitem.vue";
+    import todo from "./todo.vue";
     import {DELETE_TODO, CREATE_TODO, UPDATE_TODO} from "../queries/graphql.js";
     import {USER} from "../constants/settings";
 
     export default {
         name: "todoList",
-        data: function () {
+        data() {
             return {
                 page: 0,
             }
@@ -43,7 +61,7 @@
             todos: Array,
         },
         components: {
-            listitem
+            todo
         },
         methods: {
             createTodo() {
@@ -65,13 +83,13 @@
                     });
             },
             deleteTodo(id) {
-                this.items = this.items.filter(x => x.id !== id);
                 this.$apollo.mutate({
                     mutation: DELETE_TODO,
                     variables: {
                         id: id
                     }
                 });
+                this.todos = this.todos.filter(x => x.id !== id);
             },
             toggleEditMode(entry) {
                 if (entry.editMode) {
@@ -83,9 +101,15 @@
                                 text: entry.text
                             }
                         })
-                        .then(() => {
-                            console.log("updated todo.");
-                        })
+                        .then((response) => {
+                                const item = response.data.updateTodo;
+                                this.todos.forEach(i => {
+                                    if (i.id === item.id) {
+                                        i.modifiedAt = item.modifiedAt;
+                                    }
+                                });
+                            }
+                        )
                         .catch(error => {
                             console.error(error);
                         });
@@ -101,7 +125,6 @@
                     this.page -= 1;
                     this.$emit('changePage', this.page);
                 }
-
             },
             nextPage() {
                 this.page += 1;
@@ -116,8 +139,13 @@
         margin-right: 30px;
         margin-left: 30px;
     }
+
     .infoLabel {
         margin-left: 30px;
     }
 
+    #listHeader {
+        font-size: 120%;
+        margin: auto
+    }
 </style>

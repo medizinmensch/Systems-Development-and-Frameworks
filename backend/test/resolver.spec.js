@@ -16,7 +16,8 @@ const testUserEmail = process.env.TESTUSER_EMAIL;
 const testUserPassword = process.env.TESTUSER_PASSWORD;
 const testUserName = process.env.TESTUSER_NAME;
 
-// could not outsource these queries/mutations...
+// We decided to not reference to ./webapp/queries/graphql.js as we do not want to cross-reference these directories.
+// Furthermore, we see the frontend and backend developed independently and so the queries should be as well.
 const LOGIN = gql`
     mutation login($email: String!, $password:String!) {
         login(email: $email, password: $password) {

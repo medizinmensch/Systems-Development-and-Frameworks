@@ -7,7 +7,7 @@ const users = require('../neo4j/users.js');
 function getContext(req) {
     const driver = getDriver();
     // add user
-    if (!req) return { driver };
+    if (typeof req == "undefined" ) return { driver };
     const authHeader = req.get('Authorization');
     if (!authHeader) return { driver };
     const token = authHeader.replace('Bearer ', '');
@@ -31,6 +31,13 @@ function findUserFromToken(req_user, token) {
     return foundUser
 }
 
+function getCurrentDate() {
+    const event = new Date();
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', seconds: 'numeric'};
+    return event.toLocaleDateString('de-DE', options)
+}
+
 
 
 module.exports.getContext = getContext;
+module.exports.getCurrentDate = getCurrentDate;

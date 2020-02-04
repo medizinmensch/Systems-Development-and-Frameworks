@@ -1,0 +1,21 @@
+version: '3'
+services:
+  webapp:
+    build: ./webapp/
+    ports:
+      - "8080:80"
+  backend:
+    build: ./backend/
+    ports:
+            - "4000:4000"
+  database:
+    build: ./backend/neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - $HOME/neo4j/data:/data
+      - $HOME/neo4j/logs:/logs
+    environment:
+      - NEO4J_dbms_memory_pagecache_size=4G
+      - NEO4J_AUTH=neo4j/wordpass

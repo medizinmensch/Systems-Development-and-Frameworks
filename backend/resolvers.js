@@ -1,6 +1,7 @@
 const {AuthenticationError} = require("apollo-server-errors");
 const uuidv1 = require('uuid/v1');
 const {createJWTToken} = require('./helper/jwt.js');
+const {getCurrentDate} = require('./helper/context.js');
 
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves todos from the neo4j db
@@ -63,54 +64,47 @@ const resolvers = {
             }
         },
         createTodo: async (parent, args, context) => {
-            console.log(`INFO - Got 'CREATE_TODO' from user ‘${context.user.name}'`);
+            const currentUser = context.user.name;
+            console.log(`INFO - Got 'CREATE_TODO' from user ‘${currentUser}'`);
+
             const session = context.driver.session();
-            const todo = {
-                id: uuidv1(),
-                text: args.text
-            };
+            let query;
+
             try {
-                await session.run(
-                    'CREATE (t:Todo {id: $id, text: $text})',
+                query = await session.run(
+                    'MATCH (u:User) WHERE u.name = $user_name \n' +
+                    'CREATE (t:Todo {id: $id, text: $text, createdBy: $user_name, createdAt: $createdAt})-[r:BELONGS]->(u) \n' +
+                    'RETURN t, u',
                     {
-                        id: todo.id,
-                        text: todo.text
+                        id: uuidv1(),
+                        text: args.text,
+                        user_name: context.user.name,
+                        createdAt: getCurrentDate()
                     }
                 );
             } finally {
                 session.close()
             }
-            //create relationship
-            const session2 = context.driver.session();
-            let rel_query = ''
-            try {
-                rel_query = await session2.run(
-                    'MATCH (u:User), (t:Todo) \n' +
-                    'WHERE u.name = $user_name AND t.id = $todo_id \n' +
-                    'CREATE (t)-[r:BELONGS]->(u)\n' +
-                    'RETURN u, type(r), t.id',
-                    {
-                        user_name: context.user.name,
-                        todo_id: todo.id
-                    }
-                );
-            } finally {
-                session2.close()
-            }
-            todo.user = rel_query.records[0].get('u').properties;
+
+            const todo = query.records[0].get('t').properties
+            todo.user = query.records[0].get('u').properties;
+
             return todo
         },
         updateTodo: async (parent, args, context) => {
-            console.log(`INFO - Got 'UPDATE_TODO' from user ‘${context.user.name}'`);
+            const currentUser = context.user.name;
+            console.log(`INFO - Got 'UPDATE_TODO' from user ‘${currentUser}'`);
             const session = context.driver.session();
             try {
                 let todo = await session.run(
                     'MERGE (t:Todo {id: $id})-[:BELONGS]->(u:User {name: $user}) \n' +
-                    'ON MATCH SET t.text = $text \n' +
+                    'ON MATCH SET t.text = $text, t.modifiedAt = $modifiedAt, t.modifiedBy = $modifiedBy \n' +
                     'RETURN t', {
                         id: args.id,
                         text: args.text,
-                        user: context.user.name
+                        user: currentUser,
+                        modifiedBy: currentUser,
+                        modifiedAt: getCurrentDate()
                     });
                 return todo.records[0].get("t").properties
             } finally {

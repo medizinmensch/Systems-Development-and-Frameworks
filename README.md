@@ -134,3 +134,24 @@ help out: https://human-connection.org/discord
 
 If you copy code from other groups, please give credit to them in your commit
 messages.
+
+
+
+## Deadline is January 8th, 2020
+
+1. ✅Optional tasks of exercise #3 are now required: Implement a permission layer around your app. Use graphql-shield and graphql-middleware. Here is some inspiration how your test cases could look like: Test cases for a permission layer [Picture is here](https://github.com/roschaefer/Systems-Development-and-Frameworks/blob/master/5/README.md)
+2. Refactor your backend and frontend to show something different than just todos and users. Be creative.
+3. ✅Do a remote pair-programming session. You can choose any pairing partner, either from our course or you can also ask our open-source community.
+4. Record your pair-programming session and publish it. Choose any software you want. If you don't like being on the web, disable your webcam and save the video as "unlisted". I recommend PeerTube to host the video but there is also this commercial platform called YouTube as an alternative. Send a link to your recorded video to htw@roschaefer.de.
+5. ✅Write backend tests.
+6. Request a review from @roschaefer.
+7. Request a review from sb. else.
+
+
+TODO 07.01.20:
+
+- Refactor to music store instead of todo-list
+- refactor code
+    - look for unused imports
+    - improve functions/methods
+- update modifiedAt field in frontend to match actual date/time after editing  

@@ -2,6 +2,8 @@ env:
   browser: true
   es6: true
   jest: true
+  amd: true
+  node: true
 extends:
   - 'eslint:recommended'
   - 'plugin:vue/essential'
@@ -11,6 +13,9 @@ globals:
 parserOptions:
   ecmaVersion: 2018
   sourceType: module
+  allowImportExportEverywhere: true
 plugins:
   - vue
-rules: {}
+rules: {
+  require-atomic-updates: 'off'
+}
