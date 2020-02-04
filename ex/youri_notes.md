@@ -226,3 +226,98 @@ let doubles = [1,2,3].map(function (n) { return n * 2})
 * map is a higher order function because it takes a function as an argument
 * the argument is a higher order function because it is an argument of a function
 
+# Neo4J / GraphQl
+> Neo4J is a Graph Database. It works well with GraphQL but it's coworking is not a must
+
+* Graph Database
+* directed, labelled, with properties
+
+## GraphQL Schema Definiton Language (SDL)
+
+```JavaScript
+type TypeName {
+    fieldName: FieldType
+    referenceField: TypeName
+    listReferenceField: [TypeName]
+}
+```
+
+To define a node with the label Movie with the properties movieId, title and description.
+```JavaScript
+type Movie { // Movie is the label of the node
+    movieId: ID! // must give an ID
+    title: String
+    description: String
+    actor: [Actor] // object type Actor must be defined somewhere else
+}
+```
+
+## Defining Query, Mutations and Resolvers
+Query and Mutations are automatically generated with `neo4j-graphql`.
+Resolvers are integrated in the schema augmentation process. 
+
+
+### Queries (=GETs)
+
+```JavaScript
+type Query {
+  Movie(_id: String, movieId: ID, title: String, description: String: [Movie]
+  Actor(actorId: ID, name: String, _id: String: [Actor]
+  User(userId: ID, name: String, _id: String[User]
+}
+```
+
+### Mutations (=POSTs)
+
+```JavaScript
+type Mutation {
+  CreateMovie(movieId: ID, title: String, description: String): Movie
+  UpdateMovie(movieId: ID!, title: String, year: Int, description: String): Movie
+  DeleteMovie(movieId: ID!): Movie
+  AddMovieActors(from: _ActorInput!, to: _MovieInput!): _AddMovieActorsPayload
+}
+```
+
+### Resolver
+
+```JavaScript
+const typeDefs = ```
+type User {
+    userId: ID!
+    firstName: String
+    lastName: String
+    fullName: String
+}
+```;
+const resolvers = {
+    User: {
+        fullName(obj, params, ctx, resolveInfo) {
+            return `${obj.firstName} ${obj.lastName}`;
+        }
+    }
+};
+const schema = makeAugmentedSchema{
+    typeDefs,
+    resolvers
+}
+```
+
+## Cypher language
+> `Match <Pattern> Return <Variables>`
+
+> `...(variablefor:label {property: "valueOfProperty"})-[variableof:relationship]->(variableof:anotherLabel {anotherProperty: "anotherValue"})...`
+
+### Read
+
+* **All:** `MATCH (n) RETURN n`
+* **Type:** `MATCH (name:type) RETURN name`
+* **Match all employees of the department with the name "IT Department", give me the person names:**
+
+```
+MATCH (p:Person)<-[:EMPLOYEE]-(d:Department)
+WHERE d.name = "IT Department"
+RETURN p.name
+```
+
+### Write
+**TODO**
